@@ -1,5 +1,8 @@
 package edu.just.bank.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Customer {
 
 	private int customerId;
@@ -8,22 +11,31 @@ public class Customer {
 	private String identityNumber;
 	private String telephone;
 	private String address;
-	private int balance;
-	private int userId;
+	private int accountId;
 
 	public Customer() {}
 	
 	public Customer(int customerId, String name, int age, String identityNumber, String telephone, String address,
-			int userId) {
+			int accountId) {
 		this.customerId = customerId;
 		this.name = name;
 		this.age = age;
 		this.identityNumber = identityNumber;
 		this.telephone = telephone;
 		this.address = address;
-		this.userId = userId;
+		this.accountId = accountId;
 	}
-
+	
+	private Set<Detail> details = new HashSet<>();
+	
+	public void setDetails(Set<Detail> details) {
+		this.details = details;
+	}
+	
+	public Set<Detail> getDetails() {
+		return details;
+	}
+	
 	public int getCustomerId() {
 		return customerId;
 	}
@@ -72,27 +84,19 @@ public class Customer {
 		this.address = address;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getaccountId() {
+		return accountId;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-	
-	public void setBalance(int balance) {
-		this.balance = balance;
-	}
-	
-	public int getBalance() {
-		return balance;
+	public void setaccountId(int accountId) {
+		this.accountId = accountId;
 	}
 
 	@Override
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", name=" + name + ", age=" + age + ", identityNumber="
-				+ identityNumber + ", telephone=" + telephone + ", address=" + address + ", balance=" + balance
-				+ ", userId=" + userId + "]";
+				+ identityNumber + ", telephone=" + telephone + ", address=" + address + ", accountId="
+				+ accountId + "]";
 	}
 
 }

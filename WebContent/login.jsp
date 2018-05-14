@@ -26,7 +26,7 @@
 	</font>
 	<br/>
 	
-	<form action="bankServlet?method=login" method="post">
+	<form action="loginServlet?method=login" method="post">
 		
 		accountNumber: <input type="text" name="accountNumber" value="${requestScope.username }" />
 		<br/><br/>

@@ -12,8 +12,7 @@ class CustomerDAOTest {
 	
 	@Test
 	void testGetCustomer() {
-		Customer customer = customerDAO.getCustomer1(3);
-		System.out.println(customer.getBalance());
+		
 	}
 
 }

@@ -14,6 +14,9 @@
 </head>
 <body>	
 	<center>
+		<h3>账户信息</h3>
+		<br/>
+		
 		<c:if test="${requestScope.customer != null }">
 			name: ${customer.name }
 			<br/><br/>
@@ -25,7 +28,8 @@
 			<br/><br/>
 			address: ${customer.address }
 			<br/><br/>
-			balance: ${customer.balance }
+			balance: ${account.balance }
+			<br/><br/>
 			
 			<a href="bankServlet?method=forwardPage&page=deposit&accountNumber=${sessionScope.account.accountNumber }">存款</a>&nbsp;
 			<a href="bankServlet?method=forwardPage&page=withdraw&accountNumber=${sessionScope.account.accountNumber }">取款</a>&nbsp;

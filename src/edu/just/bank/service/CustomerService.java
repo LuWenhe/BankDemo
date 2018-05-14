@@ -8,12 +8,9 @@ public class CustomerService {
 
 	CustomerDAO customerDAO = new CustomerDAOImpl();
 	
-	public Customer getCustomerWithUserId(int userId) {
-		return customerDAO.getCustomer(userId);
+	public Customer getCustmerWithAccountId(int accountId) {
+		return customerDAO.getCustomer(accountId);
 	}
 	
-	public Customer getCustmerWithAccountId(int accountId) {
-		return customerDAO.getCustomer1(accountId);
-	}
 	
 }

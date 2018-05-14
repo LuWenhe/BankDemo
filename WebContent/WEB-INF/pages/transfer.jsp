@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -58,11 +59,6 @@
 			$("#error").text("");
 		});
 		
-		$(":submit").click(function(){
-			alert("heelo");
-			return false;
-		});
-		
 	});
 	
 </script>
@@ -72,7 +68,7 @@
 	<center>
 		<h3>转账</h3>
 		
-		<div id="error"></div>
+		<div id="error" style="color: red"></div>
 		
 		<form action="bankServlet?method=transfer&accountNumber=${sessionScope.account.accountNumber }" method="post">
 			请输入对方的账户:
@@ -80,11 +76,13 @@
 			<br/><br/>
 			
 			请输入转账金额:
-			<input type="text" id="an" name="accountNumber"/>
+			<input type="text" id="an" name="amount"/>
 			<br/><br/>
 			
 			<input type="submit" value="转账"/>
 		</form>
+		
+		你已经向账号为 ${account.accountNumber }的用户转了 ${amount } 元!
 	</center>
 
 </body>
