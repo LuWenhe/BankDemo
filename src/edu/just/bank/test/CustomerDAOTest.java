@@ -1,5 +1,7 @@
 package edu.just.bank.test;
 
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 
 import edu.just.bank.dao.CustomerDAO;
@@ -12,7 +14,14 @@ class CustomerDAOTest {
 	
 	@Test
 	void testGetCustomer() {
-		
+		Customer customer = customerDAO.getCustomer(5);
+		System.out.println(customer);
+	}
+
+	@Test
+	void testGetCustomersWithAccountId() {
+		Set<Customer> customers = customerDAO.getCustomersWithAccountId(5);
+		System.out.println(customers);
 	}
 
 }

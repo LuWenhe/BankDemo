@@ -34,6 +34,7 @@
 			<a href="bankServlet?method=forwardPage&page=deposit&accountNumber=${sessionScope.account.accountNumber }">存款</a>&nbsp;
 			<a href="bankServlet?method=forwardPage&page=withdraw&accountNumber=${sessionScope.account.accountNumber }">取款</a>&nbsp;
 			<a href="bankServlet?method=forwardPage&page=transfer&accountNumber=${sessionScope.account.accountNumber }">转账</a>&nbsp;
+			<a href="bankServlet?method=detail&accountNumber=${sessionScope.account.accountNumber }">明细</a>&nbsp;
 		</c:if>
 		<br/>
 	</center>

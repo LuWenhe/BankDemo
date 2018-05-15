@@ -1,7 +1,5 @@
 package edu.just.bank.dao;
 
-import java.util.Set;
-
 import edu.just.bank.domain.Account;
 
 public interface AccountDAO {

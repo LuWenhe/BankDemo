@@ -84,7 +84,7 @@ public class Customer {
 		this.address = address;
 	}
 
-	public int getaccountId() {
+	public int getAccountId() {
 		return accountId;
 	}
 
@@ -95,8 +95,8 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", name=" + name + ", age=" + age + ", identityNumber="
-				+ identityNumber + ", telephone=" + telephone + ", address=" + address + ", accountId="
-				+ accountId + "]";
+				+ identityNumber + ", telephone=" + telephone + ", address=" + address + ", accountId=" + accountId
+				+ ", details=" + details + "]";
 	}
 
 }

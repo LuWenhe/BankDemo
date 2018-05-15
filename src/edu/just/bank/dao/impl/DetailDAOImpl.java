@@ -1,5 +1,7 @@
 package edu.just.bank.dao.impl;
 
+import java.util.List;
+
 import edu.just.bank.dao.DetailDAO;
 import edu.just.bank.domain.Detail;
 
@@ -11,6 +13,13 @@ public class DetailDAOImpl extends BaseDAO<Detail> implements DetailDAO {
 				+ "VALUES(?,?,?,?,?)";
 		insert(sql, null, detail.getDetailTime(), detail.getType(), 
 				detail.getMoney(), detail.getcustomerId());
+	}
+
+	@Override
+	public List<Detail> listDetail(Integer customerId) {
+		String sql = "SELECT detailid, detailtime, type, money, customerid FROM detail "
+				+ "WHERE customerid = ?";
+		return queryForList(sql, customerId);
 	}
 
 }

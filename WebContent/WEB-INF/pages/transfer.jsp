@@ -33,12 +33,16 @@
 			$.getJSON(url, args, function(data){
 				var result1 = data.result;
 
-				if(result1){
-					$("#error").text("验证成功");
+				if(!result1){
+					$("#error").text("不能使用自己的账户");
+				} else if(result1 == 1) {
+					$("#error").text("验证通过");
 				} else {
-					$("#error").text("验证失败");
+					$("#error").text("不存在该账户");
 				}
+				
 			});
+		
 		});
 		
 		$("#an").change(function(){
@@ -82,7 +86,9 @@
 			<input type="submit" value="转账"/>
 		</form>
 		
-		你已经向账号为 ${account.accountNumber }的用户转了 ${amount } 元!
+		<c:if test="${amount > 0 }">
+			你已经向账号为 ${account.accountNumber }的用户转了 ${amount } 元!
+		</c:if>
 	</center>
 
 </body>

@@ -50,8 +50,8 @@
 			<input type="submit" value="确定"/>
 		</form>
 		
-		<c:if test="${account.balance > 0 }">
-			你已经取了 ${account.balance }元!,当前余额为: ${balance }元!
+		<c:if test="${amount > 0 }">
+			你已经取了 ${amount }元!,当前余额为: ${account.balance }元!
 		</c:if>
 	</center>
 	
