@@ -43,9 +43,7 @@ public class AccountService {
 		return accountDAO.countAcount(accountNumber);
 	}
 	
-	public void addDepositDetails(String accountNumber, float amount, String type) {
-		accountDAO.depositBalance(accountNumber, amount);
-		Account account = accountDAO.getAccount(accountNumber);
+	public void addAccountDetails(Account account, float amount, String type) {
 		Detail detail = new Detail();
 		
 		Set<Customer> customers = customerDAO.getCustomersWithAccountId(account.getAccountid());

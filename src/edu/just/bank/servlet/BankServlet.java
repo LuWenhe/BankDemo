@@ -62,17 +62,19 @@ public class BankServlet extends HttpServlet {
 		String accountNumber = request.getParameter("accountNumber");
 		System.out.println("deposit: " + accountNumber);
 		float amount = 0;
-		String type = "存入";
+		
+		String type = "存款";
+		Account account = accountService.getAccountWithAccountNumber(accountNumber);
 		
 		try {
 			amount = Float.parseFloat(amountStr);
 		} catch (Exception e) {} 
 		
 		if(amount > 0) {
-			accountService.addDepositDetails(accountNumber, amount, type);
+			accountService.depositBalance(accountNumber, amount);
+			accountService.addAccountDetails(account, amount, type);
 		}
 		
-		Account account = accountService.getAccountWithAccountNumber(accountNumber);
 		int balance = account.getBalance();
 		
 		request.setAttribute("balance", balance);
@@ -86,17 +88,17 @@ public class BankServlet extends HttpServlet {
 		System.out.println("withdraw: " + accountNumber);
 		float amount = 0;
 		
+		String type = "取款";
+		Account account = accountService.getAccountWithAccountNumber(accountNumber);
+
 		try {
 			amount = Float.parseFloat(amountStr);
 		} catch (Exception e) {}
 		
-		System.out.println("heelo");
-		
 		if(amount > 0) {
 			accountService.withdrawBalance(accountNumber, amount);
+			accountService.addAccountDetails(account, amount, type);
 		}
-		
-		Account account = accountService.getAccountWithAccountNumber(accountNumber);
 		
 		request.setAttribute("account", account);
 		request.setAttribute("amount", amount);
