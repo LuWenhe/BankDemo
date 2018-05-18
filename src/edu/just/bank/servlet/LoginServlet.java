@@ -12,8 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import edu.just.bank.domain.Account;
 import edu.just.bank.domain.Customer;
+import edu.just.bank.domain.User;
 import edu.just.bank.service.AccountService;
 import edu.just.bank.service.CustomerService;
+import edu.just.bank.service.UserService;
 
 @WebServlet("/loginServlet")
 public class LoginServlet extends HttpServlet {
@@ -23,6 +25,8 @@ public class LoginServlet extends HttpServlet {
 	private AccountService accountService = new AccountService();
 	
 	private CustomerService customerService = new CustomerService();
+	
+	private UserService userService = new UserService();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -40,76 +44,42 @@ public class LoginServlet extends HttpServlet {
 	}
 	
 	public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String accountNumber = request.getParameter("accountNumber");
-		String accountPassword = request.getParameter("accountPassword");
-		
-		StringBuffer error = validateFormField(accountNumber, accountPassword);
-		
-		//表单验证通过, 进行用户名是否匹配的验证
-		if(error.toString().equals("")) {
-			error = validateAccount(accountNumber, accountPassword);
-		}
-		
-		//如果验证都没通过, 则跳转到登陆页面
-		if(!error.toString().equals("")) {
-			request.setAttribute("error", error);
-			request.setAttribute("accountNumber", accountNumber);
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
-		}
-		
+		String username = request.getParameter("username");
+		System.out.println(username);
 		HttpSession httpSession = request.getSession();
 		
-		Account account = accountService.getAccountWithAccountNumber(accountNumber);
+		User user = userService.getUserWithUsername(username);
+		Customer customer = customerService.getCustmerWithAccountId(user.getUserId());
+		boolean flag = true;
 
-		Customer customer = customerService.getCustmerWithAccountId(account.getAccountid());
+		if(customer == null) {
+			flag = false;
+		}
 		
-		request.setAttribute("customer", customer);
+		Account account = accountService.getAccountWithAccountId(user.getAccountId()); 
+		
+		httpSession.setAttribute("userid", user.getUserId());
 		httpSession.setAttribute("account", account);
-		request.getRequestDispatcher("/WEB-INF/pages/" + "information.jsp").forward(request, response);
-	}
-	
-	/**
-	 * 验证账户的密码的是否为空
-	 * @param username
-	 * @param password
-	 * @return
-	 */
-	public StringBuffer validateFormField(String username, String password) {
-		StringBuffer error = new StringBuffer("");
-		
-		if(username == null || username.trim().equals("")) {
-			error.append("用户名不能为空");
-		}
-		
-		if(password == null || password.trim().equals("")) {
-			error.append(" 密码不能为空");
-		}
-		
-		return error;
-	}
-	
-	/**
-	 * 验证用户名和密码是否匹配
-	 * @param username
-	 * @param password
-	 * @return
-	 */
-	public StringBuffer validateAccount(String accountNumber, String accountPasssword) {
-		Boolean flag = false;
-		Account account = accountService.getAccountWithAccountNumber(accountNumber);
-		
-		if(account != null) {
-			if(accountPasssword.trim().equals(account.getAccountPassword())) {
-				flag = true;
-			}
-		}
-		
-		StringBuffer error2 = new StringBuffer("");
 		
 		if(!flag) {
-			error2.append("账户的密码不匹配");
+			request.getRequestDispatcher("/WEB-INF/pages/adduserinfo.jsp").forward(request, response);		
+			return;
 		}
-		return error2;
+		
+		request.setAttribute("customer", customer);
+		request.getRequestDispatcher("/WEB-INF/pages/information.jsp").forward(request, response);		
 	}
 
+	public void registerUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		
+		userService.addUser(user, 1);
+		
+		response.sendRedirect(request.getContextPath() + "/login.jsp");
+	}
 }

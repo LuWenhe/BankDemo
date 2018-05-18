@@ -8,6 +8,7 @@ public class Detail {
 	private String type;
 	private Date detailTime;
 	private float money;
+	private String tradeNumber;
 	private Integer customerId;
 
 	public Integer getcustomerId() {
@@ -50,10 +51,18 @@ public class Detail {
 		return money;
 	}
 
-	@Override
-	public String toString() {
-		return "Details [detailId=" + detailId + ", type=" + type + ", detailTime=" + detailTime + ", customerId="
-				+ customerId + "]";
+	public void setTradeNumber(String tradeNumber) {
+		this.tradeNumber = tradeNumber;
+	}
+	
+	public String getTradeNumber() {
+		return tradeNumber;
 	}
 
+	@Override
+	public String toString() {
+		return "Detail [detailId=" + detailId + ", type=" + type + ", detailTime=" + detailTime + ", money=" + money
+				+ ", tradeNumber=" + tradeNumber + ", customerId=" + customerId + "]";
+	}
+	
 }

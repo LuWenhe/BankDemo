@@ -11,21 +11,20 @@ public class Customer {
 	private String identityNumber;
 	private String telephone;
 	private String address;
-	private int accountId;
+	private int loanId;
+	private int userId;
 
 	public Customer() {}
 	
-	public Customer(int customerId, String name, int age, String identityNumber, String telephone, String address,
-			int accountId) {
-		this.customerId = customerId;
+	public Customer(String name, int age, String identityNumber, String telephone, String address, int userId) {
 		this.name = name;
 		this.age = age;
 		this.identityNumber = identityNumber;
 		this.telephone = telephone;
 		this.address = address;
-		this.accountId = accountId;
+		this.userId = userId;
 	}
-	
+
 	private Set<Detail> details = new HashSet<>();
 	
 	public void setDetails(Set<Detail> details) {
@@ -84,18 +83,26 @@ public class Customer {
 		this.address = address;
 	}
 
-	public int getAccountId() {
-		return accountId;
+	public int getuserId() {
+		return userId;
 	}
 
-	public void setaccountId(int accountId) {
-		this.accountId = accountId;
+	public void setuserId(int userId) {
+		this.userId = userId;
 	}
 
+	public void setLoanId(int loanId) {
+		this.loanId = loanId;
+	}
+	
+	public int getLoanId() {
+		return loanId;
+	}
+	
 	@Override
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", name=" + name + ", age=" + age + ", identityNumber="
-				+ identityNumber + ", telephone=" + telephone + ", address=" + address + ", accountId=" + accountId
+				+ identityNumber + ", telephone=" + telephone + ", address=" + address + ", userId=" + userId
 				+ ", details=" + details + "]";
 	}
 

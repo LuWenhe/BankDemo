@@ -1,61 +1,48 @@
 package edu.just.bank.domain;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 public class Account {
 
-	private Integer accountid;
-	private String accountNumber;
-	private String accountPassword;
-	private int balance;
-	
-	private Set<Customer> customers = new LinkedHashSet<>();
-	
-	public void setCustomers(Set<Customer> customers) {
-		this.customers = customers;
-	}
-	
-	public Set<Customer> getCustomers() {
-		return customers;
-	}
-	
-	public Integer getAccountid() {
-		return accountid;
+	private Integer accountId;
+	private float minbalance;
+	private float balance;
+	private float rate;
+
+	public Integer getAccountId() {
+		return accountId;
 	}
 
-	public void setAccountid(Integer accountid) {
-		this.accountid = accountid;
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
 	}
 
-	public String getAccountNumber() {
-		return accountNumber;
+	public float getMinbalance() {
+		return minbalance;
 	}
 
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
+	public void setMinbalance(float minbalance) {
+		this.minbalance = minbalance;
 	}
 
-	public void setAccountPassword(String accountPassword) {
-		this.accountPassword = accountPassword;
-	}
-	
-	public String getAccountPassword() {
-		return accountPassword;
-	}
-	
-	public int getBalance() {
+	public float getBalance() {
 		return balance;
 	}
 
-	public void setBalance(int balance) {
+	public void setBalance(float balance) {
 		this.balance = balance;
+	}
+
+	public float getRate() {
+		return rate;
+	}
+
+	public void setRate(float rate) {
+		this.rate = rate;
 	}
 
 	@Override
 	public String toString() {
-		return "Account [accountid=" + accountid + ", accountNumber=" + accountNumber + ", accountPassword="
-				+ accountPassword + ", balance=" + balance + "]";
+		return "Account [accountId=" + accountId + ", minbalance=" + minbalance + ", balance=" + balance + ", rate="
+				+ rate + "]";
 	}
 
 }

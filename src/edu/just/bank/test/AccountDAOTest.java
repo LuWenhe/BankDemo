@@ -1,10 +1,11 @@
 package edu.just.bank.test;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 import org.junit.jupiter.api.Test;
 
 import edu.just.bank.dao.AccountDAO;
 import edu.just.bank.dao.impl.AccountDAOImpl;
-import edu.just.bank.domain.Account;
 
 class AccountDAOTest {
 
@@ -12,23 +13,22 @@ class AccountDAOTest {
 	
 	@Test
 	void testGetAccount() {
-		Account account = accountDAO.getAccount("2222333344440000");
-		System.out.println(account);
+		System.out.println(accountDAO.getAccount(9));
 	}
 
 	@Test
 	void testDepositBalance() {
-		accountDAO.depositBalance("2222333344440000", 1000);
+		fail("Not yet implemented");
 	}
 
 	@Test
 	void testWithdrawBalance() {
-		accountDAO.withdrawBalance("2222333344440000", 100);
+		fail("Not yet implemented");
 	}
 
 	@Test
 	void testCountAcount() {
-		long count = accountDAO.countAcount("2222333344440001");
-		System.out.println(count);
+		fail("Not yet implemented");
 	}
+
 }

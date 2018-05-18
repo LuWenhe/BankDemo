@@ -28,13 +28,12 @@
 			<br/><br/>
 			address: ${customer.address }
 			<br/><br/>
-			balance: ${account.balance }
+			balance: ${sessionScope.account.accountId }
 			<br/><br/>
 			
-			<a href="bankServlet?method=forwardPage&page=deposit&accountNumber=${sessionScope.account.accountNumber }">存款</a>&nbsp;
-			<a href="bankServlet?method=forwardPage&page=withdraw&accountNumber=${sessionScope.account.accountNumber }">取款</a>&nbsp;
-			<a href="bankServlet?method=forwardPage&page=transfer&accountNumber=${sessionScope.account.accountNumber }">转账</a>&nbsp;
-			<a href="bankServlet?method=detail&accountNumber=${sessionScope.account.accountNumber }">明细</a>&nbsp;
+			<a href="bankServlet?method=forwardPage&page=deposit&accountId=${sessionScope.account.accountId }">存款</a>&nbsp;
+			<a href="bankServlet?method=forwardPage&page=withdraw&accountId=${sessionScope.account.accountId }">取款</a>&nbsp;
+			<a href="bankServlet?method=detail&accountId=${sessionScope.account.accountId }">明细</a>&nbsp;
 		</c:if>
 		<br/>
 	</center>

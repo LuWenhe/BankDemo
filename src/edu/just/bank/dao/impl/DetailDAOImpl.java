@@ -9,10 +9,10 @@ public class DetailDAOImpl extends BaseDAO<Detail> implements DetailDAO {
 
 	@Override
 	public void insert(Detail detail) {
-		String sql = "INSERT INTO detail(detailid, detailtime, type, money, customerid) "
-				+ "VALUES(?,?,?,?,?)";
+		String sql = "INSERT INTO detail(detailid, detailtime, type, money, tradenumber, customerid) "
+				+ "VALUES(?,?,?,?,?,?)";
 		insert(sql, null, detail.getDetailTime(), detail.getType(), 
-				detail.getMoney(), detail.getcustomerId());
+				detail.getMoney(), detail.getTradeNumber(), detail.getcustomerId());
 	}
 
 	@Override

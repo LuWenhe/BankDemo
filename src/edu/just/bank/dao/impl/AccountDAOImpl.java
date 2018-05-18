@@ -6,34 +6,28 @@ import edu.just.bank.domain.Account;
 public class AccountDAOImpl extends BaseDAO<Account> implements AccountDAO {
 
 	@Override
-	public Account getAccount(String accountNumber) {
-		String sql = "SELECT accountid, accountnumber, accountpassword, balance FROM account "
-				+ "WHERE accountnumber = ?";
-		return query(sql, accountNumber);
+	public Account getAccount(Integer accountId) {
+		String sql = "SELECT accountId accountid, minbalance, balance, rate FROM account WHERE accountid = ?";
+		return query(sql, accountId);
 	}
 
 	@Override
-	public void depositBalance(String accountNumber, float amount) {
+	public void depositBalance(Integer accountId, float amount) {
 		String sql = "UPDATE account SET balance = balance + ? WHERE "
-				+ "accountnumber = ?";
-		
-		update(sql, amount, accountNumber);
+				+ "accountid = ?";
+		update(sql, amount, accountId);
 	}
 
 	@Override
-	public void withdrawBalance(String accountNumber, float amount) {
+	public void withdrawBalance(Integer accountId, float amount) {
 		String sql = "UPDATE account SET balance = balance - ? WHERE "
-				+ "accountnumber = ?";
-		
-		update(sql, amount, accountNumber);
+				+ "accountid = ?";
+		update(sql, amount, accountId);
 	}
 
 	@Override
-	public long countAcount(String accountNumber) {
-		String sql = "SELECT count(*) FROM account WHERE accountNumber = ?";
-		
-		long count = getSingleVal(sql, accountNumber);
-		return count;
+	public long countAcount(int accountId) {
+		return 0;
 	}
 
 }

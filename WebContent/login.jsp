@@ -8,13 +8,6 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="script/jquery-3.3.1.js"></script>
 <script type="text/javascript">
-	
-	$(function(){
-		
-		
-		
-	});
-	
 </script>
 </head>
 <body>
@@ -28,10 +21,11 @@
 	
 	<form action="loginServlet?method=login" method="post">
 		
-		accountNumber: <input type="text" name="accountNumber" value="${requestScope.username }" />
+		用户名: <input type="text" name="username"/>
 		<br/><br/>
-		accountPassword: <input type="text" name="accountPassword"/>
+		密码: <input type="text" name="password"/>
 		<br/><br/>
+		<a href="<%=request.getContextPath() %>/registeruser.jsp">忘记密码?</a>
 		<input type="submit" value="登陆"/>
 		
 	</form>

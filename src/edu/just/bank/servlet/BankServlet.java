@@ -2,9 +2,7 @@ package edu.just.bank.servlet;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,14 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import edu.just.bank.domain.Account;
 import edu.just.bank.domain.Customer;
 import edu.just.bank.domain.Detail;
+import edu.just.bank.domain.User;
 import edu.just.bank.service.AccountService;
 import edu.just.bank.service.CustomerService;
 import edu.just.bank.service.DetailService;
+import edu.just.bank.service.UserService;
 
 @WebServlet("/bankServlet")
 public class BankServlet extends HttpServlet {
@@ -30,6 +28,8 @@ public class BankServlet extends HttpServlet {
 	private AccountService accountService = new AccountService();
 	
 	private CustomerService customerService = new CustomerService();
+	
+	private UserService userService = new UserService();
 	
 	private DetailService detailService = new DetailService();
 	
@@ -51,31 +51,30 @@ public class BankServlet extends HttpServlet {
 	public void forwardPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pageName = request.getParameter("page");
 		
-		String accountNumber = request.getParameter("accountNumber");
-		request.setAttribute("accountNumber", accountNumber);
-		
 		request.getRequestDispatcher("/WEB-INF/pages/" + pageName + ".jsp").forward(request, response);
 	}
 	
 	public void deposit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String amountStr = request.getParameter("depositNumber");
-		String accountNumber = request.getParameter("accountNumber");
-		System.out.println("deposit: " + accountNumber);
+		String accountIdStr = request.getParameter("accountId");
+
 		float amount = 0;
-		
-		String type = "存款";
-		Account account = accountService.getAccountWithAccountNumber(accountNumber);
+		int accountId = -1;
 		
 		try {
 			amount = Float.parseFloat(amountStr);
+			accountId = Integer.parseInt(accountIdStr);
 		} catch (Exception e) {} 
 		
-		if(amount > 0) {
-			accountService.depositBalance(accountNumber, amount);
-			accountService.addAccountDetails(account, amount, type);
+		String type = "存款";
+		Account account = accountService.getAccountWithAccountId(accountId);
+		
+		if(amount > 0 && accountId > 0) {
+			accountService.depositAmount(accountId, amount);
+			accountService.addAccountDetails(accountId, amount, type);
 		}
 		
-		int balance = account.getBalance();
+		float balance = account.getBalance();
 		
 		request.setAttribute("balance", balance);
 		request.setAttribute("amount", amount);
@@ -84,78 +83,52 @@ public class BankServlet extends HttpServlet {
 
 	public void withdraw(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String amountStr = request.getParameter("withdrawNumber");
-		String accountNumber = request.getParameter("accountNumber");
-		System.out.println("withdraw: " + accountNumber);
-		float amount = 0;
+		String accountIdStr = request.getParameter("accountId");
 		
-		String type = "取款";
-		Account account = accountService.getAccountWithAccountNumber(accountNumber);
+		float amount = 0;
+		int accountId = -1;
 
 		try {
 			amount = Float.parseFloat(amountStr);
+			accountId = Integer.parseInt(accountIdStr);
 		} catch (Exception e) {}
 		
+		String type = "取款";
+		Account account = accountService.getAccountWithAccountId(accountId);
+		
 		if(amount > 0) {
-			accountService.withdrawBalance(accountNumber, amount);
-			accountService.addAccountDetails(account, amount, type);
+			accountService.withAmount(accountId, amount);
+			accountService.addAccountDetails(accountId, amount, type);
 		}
 		
 		request.setAttribute("account", account);
 		request.setAttribute("amount", amount);
 		request.getRequestDispatcher("/WEB-INF/pages/withdraw.jsp").forward(request, response);
 	}
-	
-	public void transfer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String accountSide = request.getParameter("accountSide");
-		String amount = request.getParameter("amount");
-	
-		String accountNumber = request.getParameter("accountNumber");
-		System.out.println(accountNumber);
-		accountService.transferBalance(accountNumber, accountSide, Float.parseFloat(amount));
+
+	public void addUserInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String name = request.getParameter("name");
+		String age = request.getParameter("age");
+		String identityNumber = request.getParameter("identityNumber");
+		String telephone = request.getParameter("telephone");
+		String address = request.getParameter("address");
 		
-		Account account = accountService.getAccountWithAccountNumber(accountSide);
-		Customer customer = customerService.getCustmerWithAccountId(account.getAccountid());
-		
-		request.setAttribute("cutomer", customer);
-		request.setAttribute("amount", amount);
-		request.getRequestDispatcher("/WEB-INF/pages/transfer.jsp").forward(request, response);
-	}
- 
-	public void validateAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
-		Account account = (Account)session.getAttribute("account");
+		int userId = (int)session.getAttribute("userid");
 		
-		String accountSideStr = request.getParameter("accountSide");
-		String accountMineStr = account.getAccountNumber();
-		System.out.println(accountMineStr + " " + accountSideStr);
-		long count = accountService.getCountWithAccountNumber(accountSideStr);
-
-		Map<String, Object> result = new HashMap<>();
+		Customer customer = new Customer(name, Integer.parseInt(age), identityNumber, telephone, address, userId);
+		customerService.addCustomer(customer, userId);
 		
-		//如果是自己的账户
-		if(accountSideStr.equals(accountMineStr)) {
-			result.put("result", 0);
-		  //存在对方账户
-		} else if(count > 0) {
-			result.put("result", 1);
-		  //剩下的是不存在的账户
-		} else {
-			result.put("result", 2);
-		}
+		request.setAttribute("customer", customer);
+		request.getRequestDispatcher("/WEB-INF/pages/information.jsp").forward(request, response);
 		
-		ObjectMapper mapper = new ObjectMapper();
-		String result1 = mapper.writeValueAsString(result);
-		
-		response.setContentType("text/html");
-		response.getWriter().println(result1);
 	}
-
+	
 	public void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String accountNumber = request.getParameter("accountNumber");
+		int userId = (int)request.getSession().getAttribute("userid");
+		User user = userService.getUserWithUserId(userId);
 		
-		Account account = accountService.getAccountWithAccountNumber(accountNumber);
-		Customer customer = customerService.getCustmerWithAccountId(account.getAccountid());
+		Customer customer = customerService.getCustmerWithAccountId(user.getUserId());
 		List<Detail> details = detailService.getDetailList(customer.getCustomerId());
 		System.out.println(customer);
 		

@@ -1,6 +1,7 @@
 package edu.just.bank.service;
 
 import java.sql.Date;
+import java.util.Random;
 import java.util.Set;
 
 import edu.just.bank.dao.AccountDAO;
@@ -15,47 +16,51 @@ import edu.just.bank.domain.Detail;
 
 public class AccountService {
 	
-	AccountDAO accountDAO = new AccountDAOImpl();
+	private AccountDAO accountDAO = new AccountDAOImpl();
 	
-	CustomerDAO customerDAO = new CustomerDAOImpl();
+	private CustomerDAO customerDAO = new CustomerDAOImpl();
 	
-	DetailDAO detailDAO = new DetailDAOImpl();
+	private DetailDAO detailDAO = new DetailDAOImpl();
 	
-	public Account getAccountWithAccountNumber(String accountNumber) {
-		return accountDAO.getAccount(accountNumber);
+	public Account getAccountWithAccountId(int accountId) {
+		return accountDAO.getAccount(accountId);
 	}
 	
-	public void depositBalance(String accountNumber, float amount) {
-		accountDAO.depositBalance(accountNumber, amount);
+	public void depositAmount(int accountId, float amount) {
+		accountDAO.depositBalance(accountId, amount);
 	}
 	
-	public void withdrawBalance(String accountNumber, float amount) {
-		accountDAO.withdrawBalance(accountNumber, amount);
+	public void withAmount(int accountId, float amount) {
+		accountDAO.withdrawBalance(accountId, amount);
 	}
 	
-	public void transferBalance(String fromAccountNumber,
-			String toAccountNumber, float amount) {
-		accountDAO.withdrawBalance(fromAccountNumber, amount);
-		accountDAO.depositBalance(toAccountNumber, amount);
-	}
-	
-	public long getCountWithAccountNumber(String accountNumber) {
-		return accountDAO.countAcount(accountNumber);
-	}
-	
-	public void addAccountDetails(Account account, float amount, String type) {
+	public void addAccountDetails(Integer accountId, float amount, String type) {
 		Detail detail = new Detail();
 		
-		Set<Customer> customers = customerDAO.getCustomersWithAccountId(account.getAccountid());
+		String tradeNumber = getTradeNumber();
+		
+		Account account = accountDAO.getAccount(accountId);
+
+		Set<Customer> customers = customerDAO.getCustomersWithAccountId(account.getAccountId());
 
 		for(Customer customer: customers) {
 			detail.setcustomerId(customer.getCustomerId());
 			detail.setMoney(amount);
 			detail.setDetailTime(new Date(new java.util.Date().getTime()));
 			detail.setType(type);
+			detail.setTradeNumber(tradeNumber);
 			
 			detailDAO.insert(detail);
 		}
+	}
+
+	public String getTradeNumber() {
+		Random random = new Random();
+		int randomNumber = random.nextInt(10000);
+		
+		String tradeNumber = System.currentTimeMillis() + randomNumber + "";
+		
+		return tradeNumber;
 	}
 
 }

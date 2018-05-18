@@ -14,4 +14,7 @@ public class DetailService {
 		return detailDAO.listDetail(customerId);
 	}
 	
+	public void addDetails(Detail detail) {
+		detailDAO.insert(detail);
+	}
 }

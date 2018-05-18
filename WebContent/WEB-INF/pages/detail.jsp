@@ -15,16 +15,16 @@
 		
 		<table cellpadding="10">
 			<tr>
+				<th>编号</th>
 				<th>时间</th>
 				<th>操作方式</th>
-				<th>XX</th>
 				<th>金额</th>
 			</tr>
 			<c:forEach items="${depositDetail }" var="dd">
 				<tr>
+					<td>${dd.tradeNumber }</td>
 					<td>${dd.detailTime }</td>
 					<td>${dd.type }</td>
-					<td>${dd.detailId }</td>
 					<td>${dd.money }</td>
 				</tr>
 			</c:forEach>
