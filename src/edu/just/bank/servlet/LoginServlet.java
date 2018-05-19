@@ -10,10 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import edu.just.bank.domain.Account;
 import edu.just.bank.domain.Customer;
 import edu.just.bank.domain.User;
-import edu.just.bank.service.AccountService;
 import edu.just.bank.service.CustomerService;
 import edu.just.bank.service.UserService;
 
@@ -21,8 +19,6 @@ import edu.just.bank.service.UserService;
 public class LoginServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-
-	private AccountService accountService = new AccountService();
 	
 	private CustomerService customerService = new CustomerService();
 	
@@ -45,7 +41,6 @@ public class LoginServlet extends HttpServlet {
 	
 	public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
-		System.out.println(username);
 		HttpSession httpSession = request.getSession();
 		
 		User user = userService.getUserWithUsername(username);
@@ -56,10 +51,7 @@ public class LoginServlet extends HttpServlet {
 			flag = false;
 		}
 		
-		Account account = accountService.getAccountWithAccountId(user.getAccountId()); 
-		
-		httpSession.setAttribute("userid", user.getUserId());
-		httpSession.setAttribute("account", account);
+		httpSession.setAttribute("user", user);
 		
 		if(!flag) {
 			request.getRequestDispatcher("/WEB-INF/pages/adduserinfo.jsp").forward(request, response);		

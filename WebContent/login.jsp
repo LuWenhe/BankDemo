@@ -8,6 +8,13 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="script/jquery-3.3.1.js"></script>
 <script type="text/javascript">
+
+	$(function(){
+		
+		
+		
+	});
+
 </script>
 </head>
 <body>

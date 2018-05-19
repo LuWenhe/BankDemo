@@ -11,13 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import edu.just.bank.domain.ALoan;
 import edu.just.bank.domain.Account;
 import edu.just.bank.domain.Customer;
 import edu.just.bank.domain.Detail;
+import edu.just.bank.domain.Loan;
 import edu.just.bank.domain.User;
 import edu.just.bank.service.AccountService;
 import edu.just.bank.service.CustomerService;
 import edu.just.bank.service.DetailService;
+import edu.just.bank.service.LoanService;
 import edu.just.bank.service.UserService;
 
 @WebServlet("/bankServlet")
@@ -32,6 +35,8 @@ public class BankServlet extends HttpServlet {
 	private UserService userService = new UserService();
 	
 	private DetailService detailService = new DetailService();
+	
+	private LoanService loanService = new LoanService();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -56,16 +61,18 @@ public class BankServlet extends HttpServlet {
 	
 	public void deposit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String amountStr = request.getParameter("depositNumber");
-		String accountIdStr = request.getParameter("accountId");
+		String userIdStr = request.getParameter("userId");
 
 		float amount = 0;
-		int accountId = -1;
+		int userId = -1;
 		
 		try {
 			amount = Float.parseFloat(amountStr);
-			accountId = Integer.parseInt(accountIdStr);
+			userId = Integer.parseInt(userIdStr);
 		} catch (Exception e) {} 
 		
+		User user = userService.getUserWithUserId(userId);
+		int accountId = user.getAccountId();
 		String type = "´æ¿î";
 		Account account = accountService.getAccountWithAccountId(accountId);
 		
@@ -83,16 +90,18 @@ public class BankServlet extends HttpServlet {
 
 	public void withdraw(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String amountStr = request.getParameter("withdrawNumber");
-		String accountIdStr = request.getParameter("accountId");
+		String userIdStr = request.getParameter("userId");
 		
 		float amount = 0;
-		int accountId = -1;
+		int userId = -1;
 
 		try {
 			amount = Float.parseFloat(amountStr);
-			accountId = Integer.parseInt(accountIdStr);
+			userId = Integer.parseInt(userIdStr);
 		} catch (Exception e) {}
 		
+		User user = userService.getUserWithUserId(userId);
+		int accountId = user.getAccountId();
 		String type = "È¡¿î";
 		Account account = accountService.getAccountWithAccountId(accountId);
 		
@@ -114,10 +123,10 @@ public class BankServlet extends HttpServlet {
 		String address = request.getParameter("address");
 		
 		HttpSession session = request.getSession();
-		int userId = (int)session.getAttribute("userid");
+		User user = (User)session.getAttribute("user");
 		
-		Customer customer = new Customer(name, Integer.parseInt(age), identityNumber, telephone, address, userId);
-		customerService.addCustomer(customer, userId);
+		Customer customer = new Customer(name, Integer.parseInt(age), identityNumber, telephone, address, user.getUserId());
+		customerService.addCustomer(customer, user.getUserId());
 		
 		request.setAttribute("customer", customer);
 		request.getRequestDispatcher("/WEB-INF/pages/information.jsp").forward(request, response);
@@ -125,8 +134,8 @@ public class BankServlet extends HttpServlet {
 	}
 	
 	public void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userId = (int)request.getSession().getAttribute("userid");
-		User user = userService.getUserWithUserId(userId);
+		User user = (User)request.getSession().getAttribute("user");
+		System.out.println(user);
 		
 		Customer customer = customerService.getCustmerWithAccountId(user.getUserId());
 		List<Detail> details = detailService.getDetailList(customer.getCustomerId());
@@ -138,5 +147,62 @@ public class BankServlet extends HttpServlet {
 		
 		request.setAttribute("depositDetail", details);
 		request.getRequestDispatcher("/WEB-INF/pages/detail.jsp").forward(request, response);
+	}
+
+	public void loan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		List<Loan> loans = loanService.getListLoan();
+		
+		request.setAttribute("loan", loans);
+		request.getRequestDispatcher("/WEB-INF/pages/choiceloan.jsp").forward(request, response);
+	}
+
+	public void regloan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		String userIdStr = request.getParameter("userId");
+		String loanIdStr = request.getParameter("loanId");
+		
+		int userId = -1;
+		int loanId = -1;
+		
+		try {
+			userId = Integer.parseInt(userIdStr);
+		} catch (Exception e) {}
+		
+		try {
+			loanId = Integer.parseInt(loanIdStr);
+		} catch (Exception e) {}
+		
+		Customer customer = customerService.getCustmerWithAccountId(userId);
+		Loan loan = loanService.getLoanWithLoanId(loanId);
+		
+		request.setAttribute("customer", customer);
+		request.setAttribute("loan", loan);
+		
+		request.getRequestDispatcher("/WEB-INF/pages/regloan.jsp").forward(request, response);
+	}
+	
+	public void handleLoan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		String loanIdStr = request.getParameter("loanId");
+		String customerIdStr = request.getParameter("customerId");
+		
+		int loanId = -1;
+		int customerId = -1;
+		
+		try {
+			loanId = Integer.parseInt(loanIdStr);
+		} catch (Exception e) {}
+		
+		try {
+			customerId = Integer.parseInt(customerIdStr);
+		} catch (Exception e) {}
+		
+		String income = request.getParameter("income");
+		String loanAmount = request.getParameter("loanamount");
+		String yearNum = request.getParameter("yearnum");
+		ALoan aLoan = new ALoan(Float.parseFloat(loanAmount), Float.parseFloat(income), Integer.parseInt(yearNum));
+		
+		Loan loan = loanService.getLoanWithLoanId(loanId);
+		loan.setaLoan(aLoan);
+		
+		
 	}
 }

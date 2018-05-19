@@ -20,7 +20,7 @@ class CustomerDAOTest {
 
 	@Test
 	void testGetCustomersWithAccountId() {
-		Set<Customer> customers = customerDAO.getCustomersWithAccountId(5);
+		Set<Customer> customers = customerDAO.getCustomersWithUserId(5);
 		System.out.println(customers);
 	}
 

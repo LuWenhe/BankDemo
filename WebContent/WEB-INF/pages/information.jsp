@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -31,9 +31,10 @@
 			balance: ${sessionScope.account.accountId }
 			<br/><br/>
 			
-			<a href="bankServlet?method=forwardPage&page=deposit&accountId=${sessionScope.account.accountId }">存款</a>&nbsp;
-			<a href="bankServlet?method=forwardPage&page=withdraw&accountId=${sessionScope.account.accountId }">取款</a>&nbsp;
-			<a href="bankServlet?method=detail&accountId=${sessionScope.account.accountId }">明细</a>&nbsp;
+			<a href="bankServlet?method=forwardPage&page=deposit">存款</a>&nbsp;
+			<a href="bankServlet?method=forwardPage&page=withdraw">取款</a>&nbsp;
+			<a href="bankServlet?method=loan">贷款</a>&nbsp;
+			<a href="bankServlet?method=detail">明细</a>&nbsp;
 		</c:if>
 		<br/>
 	</center>

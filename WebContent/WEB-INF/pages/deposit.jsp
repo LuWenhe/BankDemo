@@ -41,7 +41,7 @@
 	<center>
 		<h3>存款</h3>	
 		
-		<form action="bankServlet?method=deposit&accountId=${sessionScope.account.accountId }" method="post">
+		<form action="bankServlet?method=deposit&userId=${sessionScope.user.userId }" method="post">
 			请输入存款金额:
 			<input type="text" name="depositNumber"/>
 			<br/><br/>

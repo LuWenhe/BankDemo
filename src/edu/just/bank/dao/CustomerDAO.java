@@ -10,6 +10,6 @@ public interface CustomerDAO {
 	
 	public abstract void addCustomer(Customer customer, int userId);
 	
-	public abstract Set<Customer> getCustomersWithAccountId(Integer userId);
+	public abstract Set<Customer> getCustomersWithUserId(Integer userId);
 
 }

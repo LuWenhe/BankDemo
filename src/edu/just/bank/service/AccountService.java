@@ -35,23 +35,23 @@ public class AccountService {
 	}
 	
 	public void addAccountDetails(Integer accountId, float amount, String type) {
-		Detail detail = new Detail();
-		
-		String tradeNumber = getTradeNumber();
-		
-		Account account = accountDAO.getAccount(accountId);
-
-		Set<Customer> customers = customerDAO.getCustomersWithAccountId(account.getAccountId());
-
-		for(Customer customer: customers) {
-			detail.setcustomerId(customer.getCustomerId());
-			detail.setMoney(amount);
-			detail.setDetailTime(new Date(new java.util.Date().getTime()));
-			detail.setType(type);
-			detail.setTradeNumber(tradeNumber);
-			
-			detailDAO.insert(detail);
-		}
+//		Detail detail = new Detail();
+//		
+//		String tradeNumber = getTradeNumber();
+//		
+//		Account account = accountDAO.getAccount(accountId);
+//
+//		Set<Customer> customers = customerDAO.getCustomersWithUserId(account.getAccountId());
+//
+//		for(Customer customer: customers) {
+//			detail.setcustomerId(customer.getCustomerId());
+//			detail.setMoney(amount);
+//			detail.setDetailTime(new Date(new java.util.Date().getTime()));
+//			detail.setType(type);
+//			detail.setTradeNumber(tradeNumber);
+//			
+//			detailDAO.insert(detail);
+//		}
 	}
 
 	public String getTradeNumber() {

@@ -42,7 +42,7 @@
 	<center>
 		<h3>取款</h3>
 		
-		<form action="bankServlet?method=withdraw&accountId=${sessionScope.account.accountId }" method="post">
+		<form action="bankServlet?method=withdraw&userId=${sessionScope.user.userId }" method="post">
 			请输入取款金额:
 			<input type="text" name="withdrawNumber"/>
 			<br/><br/>
