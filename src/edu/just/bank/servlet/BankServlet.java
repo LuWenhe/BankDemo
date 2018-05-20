@@ -65,6 +65,7 @@ public class BankServlet extends HttpServlet {
 
 		float amount = 0;
 		int userId = -1;
+		String type = "存款";
 		
 		try {
 			amount = Float.parseFloat(amountStr);
@@ -72,13 +73,11 @@ public class BankServlet extends HttpServlet {
 		} catch (Exception e) {} 
 		
 		User user = userService.getUserWithUserId(userId);
-		int accountId = user.getAccountId();
-		String type = "存款";
-		Account account = accountService.getAccountWithAccountId(accountId);
+		Account account = accountService.getAccountWithAccountId(user.getAccountId());
 		
-		if(amount > 0 && accountId > 0) {
-			accountService.depositAmount(accountId, amount);
-			accountService.addAccountDetails(accountId, amount, type);
+		if(amount > 0) {
+			accountService.depositAmount(user.getAccountId(), amount);
+			detailService.addAccountDetails(userId, amount, type);
 		}
 		
 		float balance = account.getBalance();
@@ -94,6 +93,7 @@ public class BankServlet extends HttpServlet {
 		
 		float amount = 0;
 		int userId = -1;
+		String type = "取款";
 
 		try {
 			amount = Float.parseFloat(amountStr);
@@ -101,13 +101,11 @@ public class BankServlet extends HttpServlet {
 		} catch (Exception e) {}
 		
 		User user = userService.getUserWithUserId(userId);
-		int accountId = user.getAccountId();
-		String type = "取款";
-		Account account = accountService.getAccountWithAccountId(accountId);
+		Account account = accountService.getAccountWithAccountId(user.getAccountId());
 		
 		if(amount > 0) {
-			accountService.withAmount(accountId, amount);
-			accountService.addAccountDetails(accountId, amount, type);
+			accountService.withAmount(user.getAccountId(), amount);
+			detailService.addAccountDetails(userId, amount, type);
 		}
 		
 		request.setAttribute("account", account);
@@ -174,6 +172,9 @@ public class BankServlet extends HttpServlet {
 		Customer customer = customerService.getCustmerWithAccountId(userId);
 		Loan loan = loanService.getLoanWithLoanId(loanId);
 		
+		System.out.println(customer);
+		System.out.println(loan);
+		
 		request.setAttribute("customer", customer);
 		request.setAttribute("loan", loan);
 		
@@ -198,11 +199,18 @@ public class BankServlet extends HttpServlet {
 		String income = request.getParameter("income");
 		String loanAmount = request.getParameter("loanamount");
 		String yearNum = request.getParameter("yearnum");
-		ALoan aLoan = new ALoan(Float.parseFloat(loanAmount), Float.parseFloat(income), Integer.parseInt(yearNum));
 		
 		Loan loan = loanService.getLoanWithLoanId(loanId);
-		loan.setaLoan(aLoan);
 		
+		ALoan aLoan = new ALoan();
+		aLoan.setLoanAmount(Float.parseFloat(loanAmount));
+		aLoan.setIncome(Float.parseFloat(income));
+		aLoan.setYearNum(Integer.parseInt(yearNum));
+		aLoan.setLoanId(loan.getLoanId());
+		 
+		loanService.addLoanDetail(loan, aLoan);
+		customerService.updateCustomer(customerId, aLoan);
 		
+		response.sendRedirect(request.getContextPath() + "/loansuccess.jsp");
 	}
 }

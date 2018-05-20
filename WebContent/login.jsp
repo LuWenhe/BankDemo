@@ -6,33 +6,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="script/jquery-3.3.1.js"></script>
-<script type="text/javascript">
-
-	$(function(){
-		
-		
-		
-	});
-
-</script>
 </head>
 <body>
-
-	<font color="red">
-		<c:if test="${requestScope.error != null }">
-			${requestScope.error }
-		</c:if>
-	</font>
-	<br/>
 	
+	<div><font color="red">${error }</font></div>
+
 	<form action="loginServlet?method=login" method="post">
 		
-		用户名: <input type="text" name="username"/>
+		用户名: <input type="text" id="us" name="username" value="${username }"/>
 		<br/><br/>
-		密码: <input type="text" name="password"/>
+		密码: <input type="text" id="pa" name="password" value="${password }"/>
 		<br/><br/>
-		<a href="<%=request.getContextPath() %>/registeruser.jsp">忘记密码?</a>
+		<a href="<%=request.getContextPath() %>/registeruser.jsp">注册账户</a>
 		<input type="submit" value="登陆"/>
 		
 	</form>

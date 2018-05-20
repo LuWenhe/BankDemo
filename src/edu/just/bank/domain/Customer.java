@@ -1,8 +1,5 @@
 package edu.just.bank.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Customer {
 
 	private int customerId;
@@ -11,7 +8,7 @@ public class Customer {
 	private String identityNumber;
 	private String telephone;
 	private String address;
-	private int loanId;
+	private int aLoanId;
 	private int userId;
 
 	public Customer() {}
@@ -23,16 +20,6 @@ public class Customer {
 		this.telephone = telephone;
 		this.address = address;
 		this.userId = userId;
-	}
-
-	private Set<Detail> details = new HashSet<>();
-	
-	public void setDetails(Set<Detail> details) {
-		this.details = details;
-	}
-	
-	public Set<Detail> getDetails() {
-		return details;
 	}
 	
 	public int getCustomerId() {
@@ -91,19 +78,12 @@ public class Customer {
 		this.userId = userId;
 	}
 
-	public void setLoanId(int loanId) {
-		this.loanId = loanId;
+	public void setaLoanId(int aLoanId) {
+		this.aLoanId = aLoanId;
 	}
 	
-	public int getLoanId() {
-		return loanId;
-	}
-	
-	@Override
-	public String toString() {
-		return "Customer [customerId=" + customerId + ", name=" + name + ", age=" + age + ", identityNumber="
-				+ identityNumber + ", telephone=" + telephone + ", address=" + address + ", userId=" + userId
-				+ ", details=" + details + "]";
+	public int getaLoanId() {
+		return aLoanId;
 	}
 
 }

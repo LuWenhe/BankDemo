@@ -28,7 +28,7 @@
 					<td>${loan.loanType }</td>
 					<td>${loan.rate }</td>
 					<td>${loan.minPayRate }</td>
-					<td><a href="bankServlet?method=regloan&loanId=${loan.loanId }">申请</a></td>
+					<td><a href="bankServlet?method=regloan&userId=${sessionScope.user.userId }&loanId=${loan.loanId }">申请</a></td>
 				</tr>
 			</c:forEach>
 		</table>

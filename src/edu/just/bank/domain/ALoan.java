@@ -6,13 +6,8 @@ public class ALoan {
 	private float loanAmount;
 	private float income;
 	private Integer yearNum;
-
-	public ALoan(float loanAmount, float income, Integer yearNum) {
-		this.loanAmount = loanAmount;
-		this.income = income;
-		this.yearNum = yearNum;
-	}
-
+	private Integer loanId;
+	
 	public Integer getAloanId() {
 		return aloanId;
 	}
@@ -43,6 +38,20 @@ public class ALoan {
 
 	public void setYearNum(Integer yearNum) {
 		this.yearNum = yearNum;
+	}
+
+	public void setLoanId(Integer loanId) {
+		this.loanId = loanId;
+	}
+	
+	public Integer getLoanId() {
+		return loanId;
+	}
+
+	@Override
+	public String toString() {
+		return "ALoan [aloanId=" + aloanId + ", loanAmount=" + loanAmount + ", income=" + income + ", yearNum="
+				+ yearNum + ", loanId=" + loanId + "]";
 	}
 
 }

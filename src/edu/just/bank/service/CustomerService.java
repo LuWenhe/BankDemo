@@ -2,6 +2,7 @@ package edu.just.bank.service;
 
 import edu.just.bank.dao.CustomerDAO;
 import edu.just.bank.dao.impl.CustomerDAOImpl;
+import edu.just.bank.domain.ALoan;
 import edu.just.bank.domain.Customer;
 
 public class CustomerService {
@@ -16,4 +17,7 @@ public class CustomerService {
 		customerDAO.addCustomer(customer, userId);
 	}
 	
+	public void updateCustomer(int customerId, ALoan aLoan) {
+		customerDAO.updateCustomer(customerId, aLoan);
+	}
 }

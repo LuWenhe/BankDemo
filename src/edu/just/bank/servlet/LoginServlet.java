@@ -41,9 +41,30 @@ public class LoginServlet extends HttpServlet {
 	
 	public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 		HttpSession httpSession = request.getSession();
 		
+		String error = validateFormField(username, password);
+		System.out.println("error: " + error);
+	
+		//”–¥ÌŒÛ
+		if(error != null) {
+			request.setAttribute("username", username);
+			request.setAttribute("username", username);
+			request.setAttribute("error", error);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+			return;
+		}
+				 
 		User user = userService.getUserWithUsername(username);
+		System.out.println("user: " + user);
+		if(user == null) {
+			error = "√‹¬Î¥ÌŒÛ";
+			request.setAttribute("error", error);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+			return;
+		}
+		
 		Customer customer = customerService.getCustmerWithAccountId(user.getUserId());
 		boolean flag = true;
 
@@ -60,6 +81,29 @@ public class LoginServlet extends HttpServlet {
 		
 		request.setAttribute("customer", customer);
 		request.getRequestDispatcher("/WEB-INF/pages/information.jsp").forward(request, response);		
+	}
+
+	public String validateFormField(String username, String password) {
+		boolean flag1 = true;
+		boolean flag2 = true;
+		
+		if(username == null || username.trim().equals("")) {
+			flag1 = false;
+		}
+		
+		if(password == null || password.trim().equals("")) {
+			flag2 = false;
+		}
+		
+		if(!flag1) {
+			return "«Î ‰»Î”√ªß√˚";
+		}
+		
+		if(!flag2) {
+			return "«Î ‰»Î√‹¬Î";
+		}
+		
+		return null;
 	}
 
 	public void registerUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -6,7 +6,6 @@ public class Loan {
 	private String loanType;
 	private float minPayRate;
 	private float rate;
-	private ALoan aLoan;
 	
 	public int getLoanId() {
 		return loanId;
@@ -39,13 +38,11 @@ public class Loan {
 	public float getRate() {
 		return rate;
 	}
-	
-	public void setaLoan(ALoan aLoan) {
-		this.aLoan = aLoan;
-	}
-	
-	public ALoan getaLoan() {
-		return aLoan;
+
+	@Override
+	public String toString() {
+		return "Loan [loanId=" + loanId + ", loanType=" + loanType + ", minPayRate=" + minPayRate + ", rate=" + rate
+				+ "]";
 	}
 	
 }
