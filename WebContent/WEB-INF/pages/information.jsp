@@ -28,7 +28,7 @@
 			<br/><br/>
 			address: ${customer.address }
 			<br/><br/>
-			balance: ${sessionScope.account.accountId }
+			balance: ${account.balance }
 			<br/><br/>
 			
 			<a href="bankServlet?method=forwardPage&page=deposit">存款</a>&nbsp;

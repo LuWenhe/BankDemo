@@ -17,7 +17,7 @@ public class DetailDAOImpl extends BaseDAO<Detail> implements DetailDAO {
 
 	@Override
 	public List<Detail> listDetail(Integer customerId) {
-		String sql = "SELECT detailid, detailtime, type, money, customerid FROM detail "
+		String sql = "SELECT detailid, detailtime, type, money, tradenumber, customerid FROM detail "
 				+ "WHERE customerid = ?";
 		return queryForList(sql, customerId);
 	}

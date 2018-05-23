@@ -30,8 +30,34 @@
 			var inputVal = $.trim($("input:text").val());
 			if(inputVal == ""){
 				alert("输入的数量为空");
-				return;
+				return false;
 			}
+			
+			var u = $("form").attr("action");
+			var userId = u.substr(u.lastIndexOf("=") + 1, 1);
+			
+			var out;
+			var left;
+			
+			$.ajax({
+				type: "get",
+				async: false,
+				url: "bankServlet?method=testBalance",
+				dataType: "json",
+				data: {"userId": userId, "account": inputVal, "time": new Date()},
+				success: function(data){
+					out = data.out;				
+					left = data.left;
+				}
+			});
+
+			if(!out){
+				alert("很抱歉!当前余额不足");
+				$("input:text").val("");
+				return false;
+			}
+			
+			alert("您已经取出:" + left + "元");
 		})
 	});
 	
@@ -49,10 +75,6 @@
 			
 			<input type="submit" value="确定"/>
 		</form>
-		
-		<c:if test="${amount > 0 }">
-			你已经取了 ${amount }元!,当前余额为: ${account.balance }元!
-		</c:if>
 	</center>
 	
 

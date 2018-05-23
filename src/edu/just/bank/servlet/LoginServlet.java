@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import edu.just.bank.domain.Account;
 import edu.just.bank.domain.Customer;
 import edu.just.bank.domain.User;
+import edu.just.bank.service.AccountService;
 import edu.just.bank.service.CustomerService;
 import edu.just.bank.service.UserService;
 
@@ -23,6 +25,8 @@ public class LoginServlet extends HttpServlet {
 	private CustomerService customerService = new CustomerService();
 	
 	private UserService userService = new UserService();
+	
+	private AccountService accountService = new AccountService();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -45,22 +49,22 @@ public class LoginServlet extends HttpServlet {
 		HttpSession httpSession = request.getSession();
 		
 		String error = validateFormField(username, password);
-		System.out.println("error: " + error);
 	
 		//”–¥ÌŒÛ
 		if(error != null) {
 			request.setAttribute("username", username);
-			request.setAttribute("username", username);
+			request.setAttribute("password", password);
 			request.setAttribute("error", error);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 			return;
 		}
 				 
 		User user = userService.getUserWithUsername(username);
-		System.out.println("user: " + user);
+		
 		if(user == null) {
 			error = "√‹¬Î¥ÌŒÛ";
 			request.setAttribute("error", error);
+			request.setAttribute("username", username);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 			return;
 		}
@@ -79,27 +83,19 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}
 		
+		Account account = accountService.getAccountWithAccountId(user.getAccountId());
+		
+		request.setAttribute("account", account);
 		request.setAttribute("customer", customer);
 		request.getRequestDispatcher("/WEB-INF/pages/information.jsp").forward(request, response);		
 	}
 
 	public String validateFormField(String username, String password) {
-		boolean flag1 = true;
-		boolean flag2 = true;
-		
 		if(username == null || username.trim().equals("")) {
-			flag1 = false;
-		}
-		
-		if(password == null || password.trim().equals("")) {
-			flag2 = false;
-		}
-		
-		if(!flag1) {
 			return "«Î ‰»Î”√ªß√˚";
 		}
 		
-		if(!flag2) {
+		if(password == null || password.trim().equals("")) {
 			return "«Î ‰»Î√‹¬Î";
 		}
 		
@@ -116,6 +112,6 @@ public class LoginServlet extends HttpServlet {
 		
 		userService.addUser(user, 1);
 		
-		response.sendRedirect(request.getContextPath() + "/login.jsp");
+		response.sendRedirect(request.getContextPath() + "/registersuccess.jsp");
 	}
 }
