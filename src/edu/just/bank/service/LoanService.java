@@ -31,4 +31,7 @@ public class LoanService {
 		aLoanDAO.addALoan(aLoan);
 	}
 	
+	public ALoan getALoanWithALoanId(Integer aLoanId) {
+		return aLoanDAO.getALoan(aLoanId);
+	}
 }

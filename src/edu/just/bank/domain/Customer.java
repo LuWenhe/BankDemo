@@ -86,4 +86,12 @@ public class Customer {
 		return aLoanId;
 	}
 
+	@Override
+	public String toString() {
+		return "Customer [customerId=" + customerId + ", name=" + name + ", age=" + age + ", identityNumber="
+				+ identityNumber + ", telephone=" + telephone + ", address=" + address + ", aLoanId=" + aLoanId
+				+ ", userId=" + userId + "]";
+	}
+	
+
 }

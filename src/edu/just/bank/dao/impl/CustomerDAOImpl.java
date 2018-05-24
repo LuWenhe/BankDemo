@@ -12,7 +12,7 @@ public class CustomerDAOImpl extends BaseDAO<Customer> implements CustomerDAO {
 
 	@Override
 	public Customer getCustomer(Integer userId) {
-		String sql = "SELECT customerid, name, age, identitynumber, telephone, address, "
+		String sql = "SELECT customerid, name, age, identitynumber, telephone, address, aloanid, "
 				+ "userid FROM customer WHERE userid = ?";
 		
 		return query(sql, userId);

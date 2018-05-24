@@ -36,8 +36,8 @@
 			var u = $("form").attr("action");
 			var userId = u.substr(u.lastIndexOf("=") + 1, 1);
 			
-			var out;
-			var left;
+			var err;
+			var account;
 			
 			$.ajax({
 				type: "get",
@@ -46,18 +46,22 @@
 				dataType: "json",
 				data: {"userId": userId, "account": inputVal, "time": new Date()},
 				success: function(data){
-					out = data.out;				
-					left = data.left;
+					err = data.err;
+					acc = data.account;
 				}
 			});
 
-			if(!out){
+			if(!err){
 				alert("很抱歉!当前余额不足");
-				$("input:text").val("");
+				return false;
+			} 
+			
+			if(err == 2){
+				alert("很抱歉!您已经超过了10000元的限度");
 				return false;
 			}
 			
-			alert("您已经取出:" + left + "元");
+			alert("您已经取出:" + acc + "元");
 		})
 	});
 	

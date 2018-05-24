@@ -4,7 +4,7 @@ import edu.just.bank.domain.ALoan;
 
 public interface ALoanDAO {
 
-	public abstract ALoan getALoan(ALoan aLoan);
+	public abstract ALoan getALoan(Integer aLoanId);
 	
 	public abstract void addALoan(ALoan aLoan);
 }

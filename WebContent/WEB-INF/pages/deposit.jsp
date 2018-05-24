@@ -32,6 +32,31 @@
 				alert("输入的数量为空");
 				return false;
 			}
+			
+			var u = $("form").attr("action");
+			var userId = u.substr(u.lastIndexOf("=") + 1, 1);
+			
+			var err;
+			var acc;
+		
+			$.ajax({
+				type: "get",
+				async: false,
+				url: "bankServlet?method=testBalance",
+				dataType: "json",
+				data: {"userId": userId, "account": inputVal, "time": new Date()},
+				success: function(data){
+					err = data.err;
+					acc = data.account;
+				}
+			});
+			
+			if(err){
+				alert("很抱歉!您已经超过了10000元的限度");
+				return false;
+			}
+			
+			alert("您已经存入:" + acc + "元!");
 		})
 	});
 	
@@ -49,9 +74,6 @@
 			<input type="submit" value="确定"/>
 		</form>
 
-		<c:if test="${amount > 0 }">
-			你已经存入 ${amount }元!,当前余额为: ${balance }元!
-		</c:if>
 	</center>
 
 </body>

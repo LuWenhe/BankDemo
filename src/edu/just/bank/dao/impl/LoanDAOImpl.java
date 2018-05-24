@@ -19,5 +19,5 @@ public class LoanDAOImpl extends BaseDAO<Loan> implements LoanDAO {
 				+ "loanId = ?";
 		return query(sql, loanId);
 	}
-
+	
 }

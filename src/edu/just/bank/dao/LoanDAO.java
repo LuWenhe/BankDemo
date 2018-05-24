@@ -9,4 +9,5 @@ public interface LoanDAO {
 	public abstract List<Loan> listLoan();
 	
 	public abstract Loan getLoan(Integer loanId);
+	
 }

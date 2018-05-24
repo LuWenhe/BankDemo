@@ -2,6 +2,8 @@ package edu.just.bank.servlet;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.just.bank.domain.Account;
 import edu.just.bank.domain.Customer;
@@ -45,61 +49,42 @@ public class LoginServlet extends HttpServlet {
 	
 	public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
-		String password = request.getParameter("password");
 		HttpSession httpSession = request.getSession();
 		
-		String error = validateFormField(username, password);
-	
-		//”–¥ÌŒÛ
-		if(error != null) {
-			request.setAttribute("username", username);
-			request.setAttribute("password", password);
-			request.setAttribute("error", error);
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
-			return;
-		}
-				 
 		User user = userService.getUserWithUsername(username);
-		
-		if(user == null) {
-			error = "√‹¬Î¥ÌŒÛ";
-			request.setAttribute("error", error);
-			request.setAttribute("username", username);
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
-			return;
-		}
-		
 		Customer customer = customerService.getCustmerWithAccountId(user.getUserId());
-		boolean flag = true;
-
-		if(customer == null) {
-			flag = false;
-		}
+		Account account = accountService.getAccountWithAccountId(user.getAccountId());
 		
 		httpSession.setAttribute("user", user);
 		
-		if(!flag) {
-			request.getRequestDispatcher("/WEB-INF/pages/adduserinfo.jsp").forward(request, response);		
-			return;
-		}
-		
-		Account account = accountService.getAccountWithAccountId(user.getAccountId());
-		
-		request.setAttribute("account", account);
 		request.setAttribute("customer", customer);
-		request.getRequestDispatcher("/WEB-INF/pages/information.jsp").forward(request, response);		
+		request.setAttribute("account", account);
+		request.getRequestDispatcher("/WEB-INF/pages/information.jsp").forward(request, response);
 	}
 
-	public String validateFormField(String username, String password) {
-		if(username == null || username.trim().equals("")) {
-			return "«Î ‰»Î”√ªß√˚";
+	public void testLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		
+		User user = userService.getUserWithUsername(username);
+		
+		Map<Object, Object> result = new HashMap<>();
+		
+		if(user == null) {
+			result.put("err", 0);
+		} else {
+			
+			if(!password.equals(user.getPassword())) {
+				result.put("err", 1);
+			} else {
+				result.put("err", 2);
+			}
 		}
 		
-		if(password == null || password.trim().equals("")) {
-			return "«Î ‰»Î√‹¬Î";
-		}
 		
-		return null;
+		ObjectMapper mapper = new ObjectMapper();
+		String result1 = mapper.writeValueAsString(result);
+		response.getWriter().println(result1);
 	}
 
 	public void registerUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -110,8 +95,7 @@ public class LoginServlet extends HttpServlet {
 		user.setUsername(username);
 		user.setPassword(password);
 		
-		userService.addUser(user, 1);
-		
-		response.sendRedirect(request.getContextPath() + "/registersuccess.jsp");
+		request.setAttribute("user", user);
+		request.getRequestDispatcher("/WEB-INF/pages/adduserinfo.jsp").forward(request, response);
 	}
 }

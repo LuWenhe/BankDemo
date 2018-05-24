@@ -1,4 +1,4 @@
-package edu.just.bank.servlet;
+  package edu.just.bank.servlet;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -77,17 +77,12 @@ public class BankServlet extends HttpServlet {
 		} catch (Exception e) {} 
 		
 		User user = userService.getUserWithUserId(userId);
-		Account account = accountService.getAccountWithAccountId(user.getAccountId());
 		
 		if(amount > 0) {
 			accountService.depositAmount(user.getAccountId(), amount);
 			detailService.addAccountDetails(userId, amount, type);
 		}
 		
-		float balance = account.getBalance();
-		
-		request.setAttribute("balance", balance);
-		request.setAttribute("amount", amount);
 		request.getRequestDispatcher("/WEB-INF/pages/deposit.jsp").forward(request, response);
 	} 
 
@@ -105,15 +100,12 @@ public class BankServlet extends HttpServlet {
 		} catch (Exception e) {}
 		
 		User user = userService.getUserWithUserId(userId);
-		Account account = accountService.getAccountWithAccountId(user.getAccountId());
 		
 		if(amount > 0) {
 			accountService.withAmount(user.getAccountId(), amount);
-//			detailService.addAccountDetails(userId, amount, type);
+			detailService.addAccountDetails(userId, amount, type);
 		}
 		
-		request.setAttribute("account", account);
-		request.setAttribute("amount", amount);
 		request.getRequestDispatcher("/WEB-INF/pages/withdraw.jsp").forward(request, response);
 	}
 
@@ -131,22 +123,26 @@ public class BankServlet extends HttpServlet {
 			account = Float.parseFloat(accountStr);
 		} catch (Exception e) {}
 		
-		User user = userService.getUserWithUserId(userId);
-		
 		if(userId > 0 && account >= 0) {
+			User user = userService.getUserWithUserId(userId);
 			Account account2 = accountService.getAccountWithAccountId(user.getAccountId());
 			leftBalance = account2.getBalance() - account;
 			minBalance = account2.getMinbalance();
 		}
-	
+		
 		Map<Object, Object> result = new HashMap<>();
 		
 		if(leftBalance < minBalance) {
-			result.put("out", 0);
+			result.put("err", 0);
 		} else {
-			result.put("out", 1);
-			result.put("left", leftBalance);
+			result.put("err", 1);
 		}
+		
+		if(account > 10000) {
+			result.put("err", 2);
+		}
+		
+		result.put("account", account);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String result1 = mapper.writeValueAsString(result);
@@ -154,20 +150,18 @@ public class BankServlet extends HttpServlet {
 	}
 	
 	public void addUserInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("UTF-8");
-		
 		String name = request.getParameter("name");
 		String age = request.getParameter("age");
 		String identityNumber = request.getParameter("identityNumber");
 		String telephone = request.getParameter("telephone");
 		String address = request.getParameter("address");
+		System.out.println(name);
 		
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		
 		Customer customer = new Customer(name, Integer.parseInt(age), identityNumber, telephone, address, user.getUserId());
-		customerService.addCustomer(customer, user.getUserId());
+//		customerService.addCustomer(customer, user.getUserId());
 		Account account = accountService.getAccountWithAccountId(user.getAccountId());
 		
 		request.setAttribute("account", account);
@@ -191,11 +185,14 @@ public class BankServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/pages/detail.jsp").forward(request, response);
 	}
 
-	public void loan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		List<Loan> loans = loanService.getListLoan();
+	public void loanDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		String aLoanId = request.getParameter("aLoanId");
+		ALoan aLoan = loanService.getALoanWithALoanId(Integer.parseInt(aLoanId));
+		Loan loan = loanService.getLoanWithLoanId(aLoan.getLoanId());
 		
-		request.setAttribute("loan", loans);
-		request.getRequestDispatcher("/WEB-INF/pages/choiceloan.jsp").forward(request, response);
+		request.setAttribute("aLoan", aLoan);
+		request.setAttribute("loan", loan);
+		request.getRequestDispatcher("/WEB-INF/pages/loandetail.jsp").forward(request, response);
 	}
 
 	public void regloan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		

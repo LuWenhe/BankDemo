@@ -9,6 +9,22 @@
 <script type="text/javascript" src="script/jquery-3.3.1.js"></script>
 <script type="text/javascript">
 	
+	$(function(){
+		
+		var $aNode = $("#fir");
+		var href = $aNode.attr("href");
+		var aLoanId = href.substr(href.lastIndexOf("=") + 1, 1);
+
+		if(aLoanId != 0){
+			$aNode.text("查看贷款");
+		} else {
+			$aNode.text("申请贷款");
+
+			$aNode.attr("href", "bankServlet?method=forwardPage&page=regloan");
+		}
+		
+		
+	});
 	
 </script>
 </head>
@@ -30,10 +46,11 @@
 			<br/><br/>
 			balance: ${account.balance }
 			<br/><br/>
+			loan: <a href="bankServlet?method=loanDetail&aLoanId=${customer.aLoanId }" id="fir"></a>
+			<br/><br/>
 			
 			<a href="bankServlet?method=forwardPage&page=deposit">存款</a>&nbsp;
 			<a href="bankServlet?method=forwardPage&page=withdraw">取款</a>&nbsp;
-			<a href="bankServlet?method=loan">贷款</a>&nbsp;
 			<a href="bankServlet?method=detail">明细</a>&nbsp;
 		</c:if>
 		<br/>

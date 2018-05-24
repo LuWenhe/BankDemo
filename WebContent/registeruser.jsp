@@ -9,34 +9,56 @@
 <script type="text/javascript">
 	
 	$(function(){
-		var regName = /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/g;
-		var regPassword = /^[a-zA-Z]\w{5,17}$/g;
+		
+		var usFlag = false;
+		var paFlag = false;
 		
 		var isCor = function(input, reg){
 			if(!reg.test(input)){
 				return false;
 			}
-			
 			return true;
 		}
-	
-		$.validate = function(aNode, bNode, tips, reg){  
- 			$(aNode).change(function(){
- 				var usStr = $.trim($(this).val());
- 				var flag = isCor(usStr, reg);
- 				
- 				if(!flag){
- 					$(bNode).text(tips);
- 					return;
- 				}
- 				
- 				$(bNode).text("");
- 			})
-	    };  			
-		
-	    $.validate("#us", "#errorus", "请输入8-14位的字母或数字", regName);
-	    $.validate("#pa", "#errorpa", "请输入8-14位的字母或数字", regPassword);
 	    
+		$("#us").change(function(){
+			var regName = /^[a-zA-Z0-9_-]{5,15}$/g;
+			var usStr = $.trim($(this).val());
+			usFlag = isCor(usStr, regName);
+				
+			if(!usFlag){
+				$("#errorus").text("请输入 5-15 位的字母和数字");
+				return;
+			}
+			$("#errorus").text("");
+		});
+	    
+		$("#pa").change(function(){
+			var regPassword = /^[a-zA-Z]\w{5,15}$/g;
+			var paStr = $.trim($(this).val());
+			paFlag = isCor(paStr, regPassword);
+				
+			if(!paFlag){
+				$("#errorpa").text("请输入 5-15 位的字母和数字");
+				return;
+			}
+			$("#errorpa").text("");
+		});
+		
+	    $("input:submit").click(function(){
+	    	var usStr = $.trim($("#us").val()); 
+			var paStr = $.trim($("#pa").val());
+			
+			if(usStr == "" || paStr == ""){
+				alert("不能为空");
+				return false;
+			}
+			
+			if(!usFlag || !paFlag){
+				alert("格式不对");
+				return false;
+			}
+			
+	    });
 	});
 	
 </script>

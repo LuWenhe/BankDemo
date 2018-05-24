@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,64 +15,77 @@
 		var idenReg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/g;
 		var teleReg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/g;
 		
-		var i = 0;
+		var naFlag = false;
+		var agFlag = false;
+		var ideFlag = false;
+		var teFlag = false;
+		var adFlag = false;
 		
 		var isCor = function(input, reg){
 			if(!reg.test(input)){
 				return false;
 			}
-			i++;
-			alert(i);
 			return true;
 		}
+	    
+		function testStr(flag, anode, bnode, txt){
+			if(!flag){
+				$(bnode).text(txt);
+				return;
+			}
+			$(bnode).text("");
+		}
 		
-	
-		$.validate = function(aNode, bNode, tips, reg){  
- 			$(aNode).change(function(){
- 				var usStr = $.trim($(this).val());
- 				var flag = isCor(usStr, reg);
- 				
- 				if(!flag){
- 					$(bNode).text(tips);
- 					return;
- 				}
- 				
- 				$(bNode).text("");
- 			})
-	    };
+	    $("#na").change(function(){
+	    	var naStr = $.trim($(this).val());
+	    	naFlag = isCor(naStr, nameReg);
+	    	
+	    	testStr(naFlag, "#na", "#errorNa", "请输入0-8位的汉字");
+	    });
 	    
 	    $("#ag").change(function(){
 	    	var input = $.trim($(this).val());
 	    	var num = parseInt(input);
+	    	
 	    	if(num <= 0 || num >= 120){
 	    		$("#errorAg").text("请输入正确的年龄");
 	    		return;
 	    	}
-	    	i++
+	    	agFlag = true;
 	    	$("#errorAg").text("");
 	    });
 	    
-	    $.validate("#na", "#errorNa", "请输入0-8位的汉字", nameReg);
-	    $.validate("#ide", "#errorIde", "请输入正确的身份证号码", idenReg);
-	    $.validate("#te", "#errorTe", "请输入正确的手机号码", teleReg);
-	
+	    $("#ide").change(function(){
+	    	var ideStr = $.trim($(this).val());
+	    	ideFlag = isCor(ideStr, idenReg);
+	    	
+	    	testStr(ideFlag, "#ide", "#errorIde", "请输入正确的身份证号码");
+	    });
+	    
+	    $("#te").change(function(){
+	    	var teStr = $.trim($(this).val());
+	    	teFlag = isCor(teStr, teleReg);
+	    	
+	    	testStr(teFlag, "#te", "#errorTe", "请输入正确的手机号码");
+	    });
+	    
+	    $("#ad").change(function(){
+	    	var teStr = $.trim($(this).val());
+	    	if(teStr == ""){
+	    		$("#errorAd").text("请输入地址");
+	    		return;
+	    	}
+	    	adFlag = true;
+	    	$("#errorAd").text("");
+	    });
+	    
 	    $(":submit").click(function(){
-			var usStr = $.trim($("#na").val()); 
-			var agStr = $.trim($("#ag").val()); 
-			var ideStr = $.trim($("#ide").val()); 
-			var teStr = $.trim($("#te").val()); 
-			var adStr = $.trim($("#ad").val()); 
-			
-		    if(usStr == "" || agStr == "" || ideStr == ""
-					|| teStr == "" || adStr == ""){
-				alert("不能为空");
-				return false;
-			}
 		    
-			if(i != 4){
-				alert("验证不能通过");
-				return false;
-			}
+	    	if(!naFlag || !agFlag || !ideFlag || !teFlag || !adFlag){
+	    		alert("请输入正确信息!");
+	    		return false;
+	    	}
+			
 		});
 	    
 	});
@@ -81,6 +95,9 @@
 <body>
 
 	<h3>添加个人信息界面</h3>
+	<br/>
+	
+	你好!${user.username }
 	<br/><br/>
 	
 	<form action="bankServlet?method=addUserInfo" method="post" >

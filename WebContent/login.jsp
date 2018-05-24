@@ -6,6 +6,51 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="script/jquery-3.3.1.js"></script>
+<script type="text/javascript">
+	
+	$(function(){
+				
+		$("input:submit").click(function(){
+		
+			var usStr = $.trim($("#us").val());
+			var paStr = $.trim($("#pa").val());
+			
+			if(usStr == "" || paStr == ""){
+				alert("不能为空");
+				return false;
+			}
+			
+			var err;
+			
+			$.ajax({
+				type: "get",
+				async: false,
+				url: "loginServlet?method=testLogin",
+				dataType: "json",
+				data: {"username": usStr, "password": paStr, "time": new Date()},
+				success: function(data){
+					err = data.err;
+				}
+			});
+			
+			if(!err){
+				alert("该账户不存在!");
+				return false;
+			}
+			
+			if(err == 1){
+				alert("账户与密码不匹配!");
+				return false;
+			}			
+			
+			alert("登陆成功!");
+			
+		});
+		
+	});
+	
+</script>
 </head>
 <body>
 	

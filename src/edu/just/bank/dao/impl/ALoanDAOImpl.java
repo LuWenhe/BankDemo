@@ -6,13 +6,6 @@ import edu.just.bank.domain.ALoan;
 public class ALoanDAOImpl extends BaseDAO<ALoan> implements ALoanDAO {
 
 	@Override
-	public ALoan getALoan(ALoan aLoan) {
-		String sql = "SELECT aloanid, loanamount, income, yearnum, loanid "
-				+ "FROM aloan Where aloanid = ?";
-		return query(sql, aLoan.getAloanId());
-	}
-
-	@Override
 	public void addALoan(ALoan aLoan) {
 		String sql = "INSERT INTO aloan(loanamount, income, yearnum, loanid) "
 				+ "VALUES(?,?,?,?)";
@@ -21,4 +14,12 @@ public class ALoanDAOImpl extends BaseDAO<ALoan> implements ALoanDAO {
 		aLoan.setAloanId((int)aLoanId);
 	}
 
+	@Override
+	public ALoan getALoan(Integer aLoanId) {
+		String sql = "SELECT aloanid, loanamount, income, yearnum, loanid "
+				+ "FROM aloan WHERE aloanid = ?";
+		return query(sql, aLoanId);
+	}
+
+	
 }
