@@ -10,7 +10,7 @@
 <body>
 
 	<center>
-		<h3>请选择一项贷款</h3>
+		<h3>你好,请选择您想要的贷款</h3>
 		<br/>
 		
 		<table cellpadding="10">

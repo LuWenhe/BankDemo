@@ -9,7 +9,7 @@
 <body>
 	
 	<h3>注册成功</h3>
-	<a href="<%=request.getContextPath() %>/login.jsp"></a>
+	<a href="<%=request.getContextPath() %>/login.jsp">返回</a>
 	
 </body>
 </html>

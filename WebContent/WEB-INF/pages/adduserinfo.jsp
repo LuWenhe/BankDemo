@@ -80,12 +80,12 @@
 	    });
 	    
 	    $(":submit").click(function(){
-		    
 	    	if(!naFlag || !agFlag || !ideFlag || !teFlag || !adFlag){
 	    		alert("请输入正确信息!");
 	    		return false;
 	    	}
 			
+	    	alert("添加成功!");
 		});
 	    
 	});
@@ -101,6 +101,9 @@
 	<br/><br/>
 	
 	<form action="bankServlet?method=addUserInfo" method="post" >
+		<input type="hidden" name="username" value="${user.username }"/>
+		<input type="hidden" name="password" value="${user.password }"/>
+	
 		姓名: <input type="text" id="na" name="name"/>
 		<span id="errorNa" style="color: red"></span>
 		<br/><br/>

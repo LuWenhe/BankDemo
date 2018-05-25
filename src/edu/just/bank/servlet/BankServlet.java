@@ -102,6 +102,7 @@ public class BankServlet extends HttpServlet {
 		User user = userService.getUserWithUserId(userId);
 		
 		if(amount > 0) {
+			System.out.println("hello");
 			accountService.withAmount(user.getAccountId(), amount);
 			detailService.addAccountDetails(userId, amount, type);
 		}
@@ -131,15 +132,17 @@ public class BankServlet extends HttpServlet {
 		}
 		
 		Map<Object, Object> result = new HashMap<>();
-		
-		if(leftBalance < minBalance) {
-			result.put("err", 0);
+
+		if(leftBalance < minBalance) {		//余额不足
+			result.put("err1", 0);			
 		} else {
-			result.put("err", 1);
+			result.put("err1", 2);
 		}
-		
-		if(account > 10000) {
-			result.put("err", 2);
+
+		if(account > 10000) {				//单次操作金额大于10000
+			result.put("err2", 1);			
+		} else {
+			result.put("err2", 3);
 		}
 		
 		result.put("account", account);
@@ -155,25 +158,29 @@ public class BankServlet extends HttpServlet {
 		String identityNumber = request.getParameter("identityNumber");
 		String telephone = request.getParameter("telephone");
 		String address = request.getParameter("address");
-		System.out.println(name);
+
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 		
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
+		long userId = 0;
 		
-		Customer customer = new Customer(name, Integer.parseInt(age), identityNumber, telephone, address, user.getUserId());
-//		customerService.addCustomer(customer, user.getUserId());
-		Account account = accountService.getAccountWithAccountId(user.getAccountId());
+		if(username != null && password != null) {
+			User user = new User();
+			user.setUsername(username);
+			user.setPassword(password);
+			userId = userService.addUser(user, 1);
+		}
 		
-		request.setAttribute("account", account);
-		request.setAttribute("customer", customer);
-		request.getRequestDispatcher("/WEB-INF/pages/information.jsp").forward(request, response);
+		Customer customer = new Customer(name, Integer.parseInt(age), identityNumber, telephone, address, (int)userId);
+		customerService.addCustomer(customer, (int)userId);
 		
+		response.sendRedirect("login.jsp");
 	}
 
 	public void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User)request.getSession().getAttribute("user");
 		
-		Customer customer = customerService.getCustmerWithAccountId(user.getUserId());
+		Customer customer = customerService.getCustmerWithUserId(user.getUserId());
 		List<Detail> details = detailService.getDetailList(customer.getCustomerId());
 		System.out.println(details);
 		
@@ -185,6 +192,13 @@ public class BankServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/pages/detail.jsp").forward(request, response);
 	}
 
+	public void loanlist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		List<Loan> loan = loanService.getListLoan();
+		
+		request.setAttribute("loan", loan);
+		request.getRequestDispatcher("/WEB-INF/pages/choiceloan.jsp").forward(request, response);
+	}
+	
 	public void loanDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String aLoanId = request.getParameter("aLoanId");
 		ALoan aLoan = loanService.getALoanWithALoanId(Integer.parseInt(aLoanId));
@@ -210,11 +224,8 @@ public class BankServlet extends HttpServlet {
 			loanId = Integer.parseInt(loanIdStr);
 		} catch (Exception e) {}
 		
-		Customer customer = customerService.getCustmerWithAccountId(userId);
+		Customer customer = customerService.getCustmerWithUserId(userId);
 		Loan loan = loanService.getLoanWithLoanId(loanId);
-		
-		System.out.println(customer);
-		System.out.println(loan);
 		
 		request.setAttribute("customer", customer);
 		request.setAttribute("loan", loan);
@@ -252,7 +263,15 @@ public class BankServlet extends HttpServlet {
 		loanService.addLoanDetail(loan, aLoan);
 		customerService.updateCustomer(customerId, aLoan);
 		
-		response.sendRedirect(request.getContextPath() + "/loansuccess.jsp");
+		HttpSession httpSession = request.getSession();
+		User user = (User)httpSession.getAttribute("user");
+		
+		Customer customer = customerService.getCustmerWithUserId(user.getUserId());
+		Account account = accountService.getAccountWithAccountId(user.getAccountId());
+		
+		request.setAttribute("customer", customer);
+		request.setAttribute("account", account);
+		request.getRequestDispatcher("/WEB-INF/pages/information.jsp").forward(request, response);
 	}
 
 }

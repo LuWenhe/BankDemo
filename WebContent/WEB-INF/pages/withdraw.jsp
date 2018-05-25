@@ -34,9 +34,12 @@
 			}
 			
 			var u = $("form").attr("action");
-			var userId = u.substr(u.lastIndexOf("=") + 1, 1);
+			var len = u.length;
+			var len1 = u.lastIndexOf("=");
+			var userId = u.substr(len1 + 1, len - len1);
 			
-			var err;
+			var err1;
+			var err2;
 			var account;
 			
 			$.ajax({
@@ -46,20 +49,21 @@
 				dataType: "json",
 				data: {"userId": userId, "account": inputVal, "time": new Date()},
 				success: function(data){
-					err = data.err;
+					err1 = data.err1;
+					err2 = data.err2;
 					acc = data.account;
 				}
 			});
 
-			if(!err){
-				alert("很抱歉!当前余额不足");
-				return false;
-			} 
-			
-			if(err == 2){
+			if(err2 == 1){
 				alert("很抱歉!您已经超过了10000元的限度");
 				return false;
 			}
+
+			if(!err1){
+				alert("很抱歉!超过了最低存款");
+				return false;
+			} 
 			
 			alert("您已经取出:" + acc + "元");
 		})

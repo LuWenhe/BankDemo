@@ -20,9 +20,8 @@
 		} else {
 			$aNode.text("申请贷款");
 
-			$aNode.attr("href", "bankServlet?method=forwardPage&page=regloan");
+			$aNode.attr("href", "bankServlet?method=loanlist");
 		}
-		
 		
 	});
 	
@@ -33,7 +32,7 @@
 		<h3>账户信息</h3>
 		<br/>
 		
-		<c:if test="${requestScope.customer != null }">
+		<c:if test="${customer != null }">
 			name: ${customer.name }
 			<br/><br/>
 			age: ${customer.age }

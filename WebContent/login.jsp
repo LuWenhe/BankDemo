@@ -53,8 +53,6 @@
 </script>
 </head>
 <body>
-	
-	<div><font color="red">${error }</font></div>
 
 	<form action="loginServlet?method=login" method="post">
 		

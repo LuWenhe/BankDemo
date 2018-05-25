@@ -9,7 +9,7 @@ public class CustomerService {
 
 	CustomerDAO customerDAO = new CustomerDAOImpl();
 	
-	public Customer getCustmerWithAccountId(int userId) {
+	public Customer getCustmerWithUserId(int userId) {
 		return customerDAO.getCustomer(userId);
 	}
 	

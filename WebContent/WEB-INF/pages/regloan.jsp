@@ -5,6 +5,29 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="script/jquery-3.3.1.js"></script>
+<script type="text/javascript">
+	
+	$(function(){
+		
+		$("input:submit").click(function(){
+			
+			var inStr = $.trim($("#in").val());
+			var loStr = $.trim($("#lo").val());
+			var yeStr = $.trim($("#ye").val());
+			
+			if(inStr == "" || loStr == "" || yeStr == ""){
+				alert("不能为空!");
+				return false;
+			}
+			
+			alert("申请贷款成功!");
+			
+		});
+		
+	});
+	
+</script>
 </head>
 <body>
 	
@@ -17,13 +40,13 @@
 		
 		<form action="bankServlet?method=handleLoan&loanId=${loan.loanId }
 				&customerId=${customer.customerId } " method="post">
-			月收入: <input type="text" name="income"/>
+			月收入: <input type="text" name="income" id="in"/>
 			<br/><br/>
 			
-			贷款金额: <input type="text" name="loanamount"/>
+			贷款金额: <input type="text" name="loanamount" id="lo"/>
 			<br/><br/>
 			
-			贷款年数: <input type="text" name="yearnum"/>
+			贷款年数: <input type="text" name="yearnum" id="ye"/>
 			<br/><br/>
 			
 			<input type="submit" value="申请"/>			

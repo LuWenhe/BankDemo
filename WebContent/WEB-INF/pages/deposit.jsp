@@ -34,9 +34,12 @@
 			}
 			
 			var u = $("form").attr("action");
-			var userId = u.substr(u.lastIndexOf("=") + 1, 1);
+			var len = u.length;
+			var len1 = u.lastIndexOf("=");
+			var userId = u.substr(len1 + 1, len - len1);
 			
-			var err;
+			var err1;
+			var err2;
 			var acc;
 		
 			$.ajax({
@@ -46,12 +49,13 @@
 				dataType: "json",
 				data: {"userId": userId, "account": inputVal, "time": new Date()},
 				success: function(data){
-					err = data.err;
+					err1 = data.err1;
+					err2 = data.err2;
 					acc = data.account;
 				}
 			});
 			
-			if(err){
+			if(err2 == 1){
 				alert("很抱歉!您已经超过了10000元的限度");
 				return false;
 			}
