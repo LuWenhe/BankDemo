@@ -65,7 +65,6 @@
 				return false;
 			} 
 			
-			alert("您已经取出:" + acc + "元");
 		})
 	});
 	

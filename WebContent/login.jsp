@@ -36,6 +36,8 @@
 			
 			if(!err){
 				alert("该账户不存在!");
+				$("#us").val("");
+				$("#pa").val("");
 				return false;
 			}
 			
@@ -44,8 +46,6 @@
 				return false;
 			}			
 			
-			alert("登陆成功!");
-			
 		});
 		
 	});
@@ -53,7 +53,9 @@
 </script>
 </head>
 <body>
-
+	<h3>用户登陆</h3>
+	<br/>
+	
 	<form action="loginServlet?method=login" method="post">
 		
 		用户名: <input type="text" id="us" name="username" value="${username }"/>

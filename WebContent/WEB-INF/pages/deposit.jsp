@@ -59,8 +59,6 @@
 				alert("很抱歉!您已经超过了10000元的限度");
 				return false;
 			}
-			
-			alert("您已经存入:" + acc + "元!");
 		})
 	});
 	
@@ -69,6 +67,7 @@
 <body>
 	<center>
 		<h3>存款</h3>	
+		<br/>
 		
 		<form action="bankServlet?method=deposit&userId=${sessionScope.user.userId }" method="post">
 			请输入存款金额:

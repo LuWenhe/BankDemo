@@ -64,6 +64,8 @@
 </script>
 </head>
 <body>
+	<h3>用户注册</h3>
+	<br/>
 	
 	<form action="loginServlet?method=registerUser" method="post">
 		用户名: <input type="text" id="us" name="username"/>

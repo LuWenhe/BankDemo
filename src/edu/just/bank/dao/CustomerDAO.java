@@ -9,6 +9,8 @@ public interface CustomerDAO {
 
 	public abstract Customer getCustomer(Integer userId);
 	
+	public abstract Customer getCustomer1(Integer customerId);
+	
 	public abstract void addCustomer(Customer customer, Integer userId);
 	
 	public abstract void updateCustomer(Integer customerId, ALoan aLoan);

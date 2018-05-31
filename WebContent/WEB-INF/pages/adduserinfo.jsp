@@ -84,8 +84,6 @@
 	    		alert("请输入正确信息!");
 	    		return false;
 	    	}
-			
-	    	alert("添加成功!");
 		});
 	    
 	});

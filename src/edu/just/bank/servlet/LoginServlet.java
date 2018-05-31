@@ -56,10 +56,10 @@ public class LoginServlet extends HttpServlet {
 		Account account = accountService.getAccountWithAccountId(user.getAccountId());
 		
 		httpSession.setAttribute("user", user);
+		httpSession.setAttribute("account", account);
+		httpSession.setAttribute("customer", customer);
 		
-		request.setAttribute("customer", customer);
-		request.setAttribute("account", account);
-		request.getRequestDispatcher("/WEB-INF/pages/information.jsp").forward(request, response);
+		response.sendRedirect("information.jsp");
 	}
 
 	public void testLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

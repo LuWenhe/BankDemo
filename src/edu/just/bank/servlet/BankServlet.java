@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -83,7 +82,9 @@ public class BankServlet extends HttpServlet {
 			detailService.addAccountDetails(userId, amount, type);
 		}
 		
-		request.getRequestDispatcher("/WEB-INF/pages/deposit.jsp").forward(request, response);
+		Account account = accountService.getAccountWithAccountId(user.getAccountId());
+		request.getSession().setAttribute("account", account);
+		response.sendRedirect("success.jsp");
 	} 
 
 	public void withdraw(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -107,7 +108,9 @@ public class BankServlet extends HttpServlet {
 			detailService.addAccountDetails(userId, amount, type);
 		}
 		
-		request.getRequestDispatcher("/WEB-INF/pages/withdraw.jsp").forward(request, response);
+		Account account = accountService.getAccountWithAccountId(user.getAccountId());
+		request.getSession().setAttribute("account", account);
+		response.sendRedirect("success.jsp");
 	}
 
 	public void testBalance(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
@@ -174,18 +177,19 @@ public class BankServlet extends HttpServlet {
 		Customer customer = new Customer(name, Integer.parseInt(age), identityNumber, telephone, address, (int)userId);
 		customerService.addCustomer(customer, (int)userId);
 		
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("registersuccess.jsp");
 	}
 
 	public void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User)request.getSession().getAttribute("user");
-		
+		System.out.println(request.getParameter("userId"));
 		Customer customer = customerService.getCustmerWithUserId(user.getUserId());
 		List<Detail> details = detailService.getDetailList(customer.getCustomerId());
 		System.out.println(details);
 		
-		if(details == null) {
+		if(details.isEmpty()) {
 			response.sendRedirect(request.getContextPath() + "/error-1.jsp");
+			return;
 		}
 		
 		request.setAttribute("depositDetail", details);
@@ -263,15 +267,10 @@ public class BankServlet extends HttpServlet {
 		loanService.addLoanDetail(loan, aLoan);
 		customerService.updateCustomer(customerId, aLoan);
 		
-		HttpSession httpSession = request.getSession();
-		User user = (User)httpSession.getAttribute("user");
+		Customer customer = customerService.getCustomerWithCustomerId(customerId);
+		request.getSession().setAttribute("customer", customer);
 		
-		Customer customer = customerService.getCustmerWithUserId(user.getUserId());
-		Account account = accountService.getAccountWithAccountId(user.getAccountId());
-		
-		request.setAttribute("customer", customer);
-		request.setAttribute("account", account);
-		request.getRequestDispatcher("/WEB-INF/pages/information.jsp").forward(request, response);
+		response.sendRedirect("success.jsp");
 	}
 
 }

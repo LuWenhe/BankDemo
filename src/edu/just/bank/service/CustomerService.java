@@ -13,6 +13,10 @@ public class CustomerService {
 		return customerDAO.getCustomer(userId);
 	}
 	
+	public Customer getCustomerWithCustomerId(int customerId) {
+		return customerDAO.getCustomer1(customerId);
+	}
+	
 	public void addCustomer(Customer customer, int userId) {
 		customerDAO.addCustomer(customer, userId);
 	}
