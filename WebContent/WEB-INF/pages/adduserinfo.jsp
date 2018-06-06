@@ -115,23 +115,23 @@
 					<div class="col-md-9">
 						<div class="form-group">
 							<span class="text-danger" id="errorNa"></span>
-							<input class="form-control required" type="text" placeholder="姓名" id="na" name="name"/>
+							<input class="form-control required" type="text" placeholder="姓名" id="na" name="name" autocomplete="off"/>
 						</div>
 						<div class="form-group">
 							<span class="text-danger" id="errorAg"></span>
-							<input class="form-control required" type="text" placeholder="年龄" id="ag" name="age"/>
+							<input class="form-control required" type="text" placeholder="年龄" id="ag" name="age" autocomplete="off"/>
 						</div>
 						<div class="form-group">
 							<span class="text-danger" id="errorIde"></span>
-							<input class="form-control required" type="text" placeholder="身份证号" id="ide" name="identityNumber" />
+							<input class="form-control required" type="text" placeholder="身份证号" id="ide" name="identityNumber" autocomplete="off"/>
 						</div>
 						<div class="form-group">
 							<span class="text-danger" id="errorTe"></span>
-							<input class="form-control required" type="text" placeholder="手机号码" id="te" name="telephone" />
+							<input class="form-control required" type="text" placeholder="手机号码" id="te" name="telephone" autocomplete="off"/>
 						</div>
 						<div class="form-group">
 							<span class="text-danger" id="errorAd"></span>
-							<input class="form-control required" type="text" placeholder="地址" id="ad" name="address" />
+							<input class="form-control required" type="text" placeholder="地址" id="ad" name="address" autocomplete="off"/>
 						</div>
 						<div class="form-group col-md-offset-7" class="button">
 							<input type="submit" class="btn btn-success pull-right" value="注册"></input>

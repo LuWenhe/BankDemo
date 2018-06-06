@@ -101,7 +101,7 @@
 		<div class="info">
 			<form action="bankServlet?method=deposit&userId=${sessionScope.user.userId }" method="post">
 				<div class="form-group col-sm-8" >
-			    	<input type="text" class="form-control" name="depositNumber" placeholder="请输入存款金额">
+			    	<input type="text" class="form-control" name="depositNumber" placeholder="请输入存款金额" autocomplete="off" />
 			    </div>
 				    
 			    <div class="form-group">

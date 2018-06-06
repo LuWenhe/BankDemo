@@ -208,6 +208,8 @@ public class BankServlet extends HttpServlet {
 		String aLoanId = request.getParameter("aLoanId");
 		ALoan aLoan = loanService.getALoanWithALoanId(Integer.parseInt(aLoanId));
 		Loan loan = loanService.getLoanWithLoanId(aLoan.getLoanId());
+		System.out.println(loan);
+		System.out.println(aLoan);
 		
 		request.setAttribute("aLoan", aLoan);
 		request.setAttribute("loan", loan);

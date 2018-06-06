@@ -78,19 +78,19 @@
 				
 				<div class="form-group">
 					<label class="form-label">月收入：</label>
-					<input type="text" class="form-control" id="in" name="income"/>
+					<input type="text" class="form-control" id="in" name="income" autocomplete="off"/>
 				</div>
 				<br /><br />
 				
 				<div class="form-group">
 					<label class="form-label">贷款金额：</label>
-					<input type="text" class="form-control" name="loanamount" id="lo"/>
+					<input type="text" class="form-control" name="loanamount" id="lo" autocomplete="off"/>
 				</div>
 				<br /><br />
 						
 				<div class="form-group">
 					<label class="form-label">贷款年数：</label>
-					<input type="text" class="form-control" name="yearnum" id="ye"/>
+					<input type="text" class="form-control" name="yearnum" id="ye" autocomplete="off"/>
 				</div>
 				<br /><br />
 				

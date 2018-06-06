@@ -15,7 +15,7 @@ public class LoanDAOImpl extends BaseDAO<Loan> implements LoanDAO {
 
 	@Override
 	public Loan getLoan(Integer loanId) {
-		String sql = "SELECT loanid, loantype, minpayrate FROM loan WHERE "
+		String sql = "SELECT loanid, loantype, minpayrate, rate FROM loan WHERE "
 				+ "loanId = ?";
 		return query(sql, loanId);
 	}
