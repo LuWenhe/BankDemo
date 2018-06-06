@@ -6,7 +6,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="script/jquery-3.3.1.js"></script>
+<script src="script/jquery-3.3.1.js"></script>
+<link rel="stylesheet" type="text/css" href="script/bootstrap.min.css" />
+<script src="script/bootstrap.min.js"></script>
+<link href="css/common2.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
 	
 	$(function(){
@@ -72,18 +75,48 @@
 </head>
 <body>
 	
-	<center>
-		<h3>取款</h3>
-		
-		<form action="bankServlet?method=withdraw&userId=${sessionScope.user.userId }" method="post">
-			请输入取款金额:
-			<input type="text" name="withdrawNumber"/>
-			<br/><br/>
-			
-			<input type="submit" value="确定"/>
-		</form>
-	</center>
+	<div class="container">
+		<nav class="navbar navbar-inverse">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">主菜单</a>
+			</div>
+			<div id="navbar-menu" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav" class="a">
+					<li>
+						<a href="<%=request.getContextPath() %>/information.jsp">账户信息</a>
+					</li>
+					<li>
+						<a href="bankServlet?method=forwardPage&page=deposit">存款</a>
+					</li>
+					<li>
+						<a href="bankServlet?method=forwardPage&page=withdraw">取款</a>
+					</li>
+					<li>
+						<a href="bankServlet?method=detail">明细</a>
+					</li>
+					<li>
+						<a href="bankServlet?method=logout">注销</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
 	
-
+	<div class="content">
+		<h2>取款💵</h2>
+		
+		<div class="info">
+			<form action="bankServlet?method=withdraw&userId=${sessionScope.user.userId }" method="post">
+				<div class="form-group col-sm-8" >
+			    	<input type="text" class="form-control" name="withdrawNumber" placeholder="请输入取款金额">
+			    </div>
+				    
+			    <div class="form-group">
+					<input type="submit" class="btn btn-primary" value="确定" />
+				</div>
+			</form>
+		</div>
+	</div>
+	
 </body>
 </html>

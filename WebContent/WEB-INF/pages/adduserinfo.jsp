@@ -6,7 +6,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="script/jquery-3.3.1.js"></script>
+<script src="script/jquery-3.3.1.js"></script>
+<link rel="stylesheet" type="text/css" href="script/bootstrap.min.css" />
+<script src="script/bootstrap.min.js"></script>
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+	
+	span {
+		font-weight: 600;	
+	}
+	
+</style>
+
 <script type="text/javascript">
 	
 	$(function(){
@@ -92,38 +104,43 @@
 </head>
 <body>
 
-	<h3>添加个人信息界面</h3>
-	<br/>
-	
-	你好!${user.username }
-	<br/><br/>
-	
-	<form action="bankServlet?method=addUserInfo" method="post" >
-		<input type="hidden" name="username" value="${user.username }"/>
-		<input type="hidden" name="password" value="${user.password }"/>
-	
-		姓名: <input type="text" id="na" name="name"/>
-		<span id="errorNa" style="color: red"></span>
-		<br/><br/>
-
-		年龄: <input type="text" id="ag" name="age"/>
-		<span id="errorAg" style="color: red"></span>
-		<br/><br/>
-
-		身份证号: <input type="text" id="ide" name="identityNumber"/>
-		<span id="errorIde" style="color: red"></span>
-		<br/><br/>
-
-		手机号码: <input type="text" id="te" name="telephone"/>
-		<span id="errorTe" style="color: red"></span>
-		<br/><br/>
-
-		地址: <input type="text" id="ad" name="address"/>
-		<span id="errorAd" style="color: red"></span>
-		<br/><br/>
-		
-		<input type="submit" value="注册"/>
-	</form>
+	<div class="container">
+		<div class="form row">
+			<div class="form-horizontal col-md-offset-3" id="login_form">
+				<h3 class="form-title">你好😗 ${user.username }</h3>
+				<form action="bankServlet?method=addUserInfo" method="post">
+					<input type="hidden" name="username" value="${user.username }"/>
+					<input type="hidden" name="password" value="${user.password }"/>
+					
+					<div class="col-md-9">
+						<div class="form-group">
+							<span class="text-danger" id="errorNa"></span>
+							<input class="form-control required" type="text" placeholder="姓名" id="na" name="name"/>
+						</div>
+						<div class="form-group">
+							<span class="text-danger" id="errorAg"></span>
+							<input class="form-control required" type="text" placeholder="年龄" id="ag" name="age"/>
+						</div>
+						<div class="form-group">
+							<span class="text-danger" id="errorIde"></span>
+							<input class="form-control required" type="text" placeholder="身份证号" id="ide" name="identityNumber" />
+						</div>
+						<div class="form-group">
+							<span class="text-danger" id="errorTe"></span>
+							<input class="form-control required" type="text" placeholder="手机号码" id="te" name="telephone" />
+						</div>
+						<div class="form-group">
+							<span class="text-danger" id="errorAd"></span>
+							<input class="form-control required" type="text" placeholder="地址" id="ad" name="address" />
+						</div>
+						<div class="form-group col-md-offset-7" class="button">
+							<input type="submit" class="btn btn-success pull-right" value="注册"></input>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	
 </body>
 </html>

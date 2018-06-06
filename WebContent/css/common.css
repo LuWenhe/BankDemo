@@ -1,0 +1,22 @@
+body {
+	background: url("../img/2.png");
+	background-size: 100% auto;
+}
+
+.form {
+	background: rgba(255, 255, 255, 0.2);
+	width: 400px;
+	margin: 180px auto;
+}
+
+.fa {
+	display: inline-block;
+	top: 27px;
+	left: 6px;
+	position: relative;
+	color: #ccc;
+}
+
+span {
+	padding-left: 20px;
+}

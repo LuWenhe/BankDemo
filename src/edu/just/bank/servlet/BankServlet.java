@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -273,4 +274,15 @@ public class BankServlet extends HttpServlet {
 		response.sendRedirect("success.jsp");
 	}
 
+	public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		HttpSession session = request.getSession(false);
+		
+		if(session == null) {
+			return;
+		}
+		
+		session.invalidate();
+		
+		response.sendRedirect("logout.jsp");
+	}
 }

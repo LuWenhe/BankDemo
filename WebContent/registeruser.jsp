@@ -5,7 +5,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="script/jquery-3.3.1.js"></script>
+<script src="script/jquery-3.3.1.js"></script>
+<link rel="stylesheet" type="text/css" href="script/bootstrap.min.css" />
+<script src="script/bootstrap.min.js"></script>
+<link href='css/common.css' rel='stylesheet' type='text/css' />
+
+<style type="text/css">
+	
+	span {
+		font-weight: 600;	
+	}
+	
+</style>
+
 <script type="text/javascript">
 	
 	$(function(){
@@ -64,20 +76,30 @@
 </script>
 </head>
 <body>
-	<h3>用户注册</h3>
-	<br/>
-	
-	<form action="loginServlet?method=registerUser" method="post">
-		用户名: <input type="text" id="us" name="username"/>
-		<span id="errorus" style="color: red"></span>
-		<br/><br/>
-		
-		密码: <input type="password" id="pa" name="password"/>
-		<span id="errorpa" style="color: red"></span>
-		<br/><br/>
-		
-		<input type="submit" value="注册"/>
-	</form>
-
+	<div class="container">
+		<div class="form row">
+			<div class="form-horizontal col-md-offset-3" id="login_form">
+				<h3 class="form-title">注册😊</h3>
+				
+				<form action="loginServlet?method=registerUser" method="post">
+					<div class="col-md-9">
+						<div class="form-group">
+							<span id="errorus" class="text-danger"></span>
+							<input class="form-control required" type="text" placeholder="用户名" id="us" name="username" autofocus="autofocus" maxlength="15" />
+						</div>
+						
+						<div class="form-group">
+							<span id="errorpa" class="text-danger"></span>
+							<input class="form-control required" type="password" placeholder="密码" id="pa" name="password" maxlength="15" />
+						</div>
+						
+						<div class="form-group col-md-offset-7" class="button">
+							<input type="submit" class="btn btn-success pull-right" value="注册" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

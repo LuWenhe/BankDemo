@@ -12,7 +12,7 @@ class UserDAOTest {
 	
 	@Test
 	void testGetUser() {
-		System.out.println(userDAO.getUser(1));
+		System.out.println(userDAO.getUser("aaaaa"));
 	}
 
 	@Test

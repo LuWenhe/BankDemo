@@ -6,7 +6,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="script/jquery-3.3.1.js"></script>
+<script src="script/jquery-3.3.1.js"></script>
+<link rel="stylesheet" type="text/css" href="script/bootstrap.min.css" />
+<script src="script/bootstrap.min.js"></script>
+<link href="css/common.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
 	
 	$(function(){
@@ -53,19 +56,38 @@
 </script>
 </head>
 <body>
-	<h3>用户登陆</h3>
-	<br/>
 	
-	<form action="loginServlet?method=login" method="post">
-		
-		用户名: <input type="text" id="us" name="username" value="${username }"/>
-		<br/><br/>
-		密码: <input type="text" id="pa" name="password" value="${password }"/>
-		<br/><br/>
-		<a href="<%=request.getContextPath() %>/registeruser.jsp">注册账户</a>
-		<input type="submit" value="登陆"/>
-		
-	</form>
+	<div class="container">
+		<div class="form row">
+			<div class="form-horizontal col-md-offset-3" id="login_form">
+				<h3 class="form-title">登陆🙂</h3>
+				<br/>
+				
+				<form action="loginServlet?method=login" method="post">
+					<div class="col-md-9">
+						<div class="form-group">
+							<input class="form-control required" type="text" placeholder="用户名" id="us" name="username" maxlength="15" value="${username }" />
+						</div>
+						<br/>
+						
+						<div class="form-group">
+							<input class="form-control required" type="password" placeholder="密码" id="pa" name="password" maxlength="15" value="${password }"/>
+						</div>
+						
+						<div class="form-group">
+							<label class="checkbox">
+	                            <a href="<%=request.getContextPath() %>/registeruser.jsp">没有账户？</a>
+	                        </label>
+						</div>
+						
+						<div class="form-group col-md-offset-7" class="button">
+							<input type="submit" class="btn btn-success pull-right" value="登陆"/>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	
 </body>
 </html>

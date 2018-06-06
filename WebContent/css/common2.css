@@ -1,0 +1,43 @@
+.container {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+	width: 1000px;
+}
+
+body {
+	font-size: 18px;
+}
+
+.navbar-nav {
+	float: right;
+}
+
+.content {
+	padding: 5% 15px;
+	margin-right: auto;
+	margin-left: auto;
+	width: 1000px;
+}
+
+.content .content-left {
+	margin: 30px 50px;
+}
+
+.info {
+	width: 50%;
+	margin: 35px auto;
+}
+
+#info1 {
+	padding-left: 36px;
+}
+
+label {
+	font-weight: 500;
+}
+
+h2 {
+	margin: 0 25%;
+}
